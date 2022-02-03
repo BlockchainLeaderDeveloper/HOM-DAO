@@ -1,2 +1,2 @@
-# Valhalla DAO
- Frontend of Valhalla DAO
+# HOM DAO
+ Frontend of HOM DAO
