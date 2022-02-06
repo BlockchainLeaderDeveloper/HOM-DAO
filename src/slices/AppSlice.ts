@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
-import { abi as ValdaoStaking } from "../abi/ValdaoStaking.json";
+import { abi as HOMdaoStaking } from "../abi/HOMdaoStaking.json";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sBHD } from "../abi/sBHD.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
@@ -27,7 +27,7 @@ export const loadAppDetails = createAsyncThunk(
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
     const stakingContract = new ethers.Contract(
       addresses[networkID].STAKING_ADDRESS as string,
-      ValdaoStaking,
+      HOMdaoStaking,
       provider,
     );
     // NOTE (appleseed): marketPrice from Graph was delayed, so get CoinGecko price
@@ -43,14 +43,14 @@ export const loadAppDetails = createAsyncThunk(
       return;
     }
     
-    const sValdaoMainContract = new ethers.Contract(addresses[networkID].SVALDAO_ADDRESS as string, sBHD, provider);
-    const valdaoContract = new ethers.Contract(addresses[networkID].VALDAO_ADDRESS as string, ierc20Abi, provider);
-    const valdaoBalance = await valdaoContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    const sHOMMainContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS as string, sBHD, provider);
+    const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, provider);
+    const HOMBalance = await HOMContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
 
-    const stakingTVL = (valdaoBalance * marketPrice) / 1000000000;
-    const circ = await sValdaoMainContract.circulatingSupply();
+    const stakingTVL = (HOMBalance * marketPrice) / 1000000000;
+    const circ = await sHOMMainContract.circulatingSupply();
     const circSupply = circ / 1000000000;
-    const total = await valdaoContract.totalSupply();
+    const total = await HOMContract.totalSupply();
     const totalSupply = total / 1000000000;
     const marketCap = marketPrice * circSupply;
     // const runway = await calcRunway(circSupply, { networkID, provider });
@@ -146,7 +146,7 @@ export const findOrLoadMarketPrice = createAsyncThunk(
 );
 
 /**
- * - fetches the VALDAO price from CoinGecko (via getTokenPrice)
+ * - fetches the HOM price from CoinGecko (via getTokenPrice)
  * - falls back to fetch marketPrice from bhd-dai contract
  * - updates the App.slice when it runs
  */

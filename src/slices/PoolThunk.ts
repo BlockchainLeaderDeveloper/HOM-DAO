@@ -66,7 +66,7 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sbhdContract = new ethers.Contract(addresses[networkID].SVALDAO_ADDRESS, sBHD, signer);
+    const sbhdContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS, sBHD, signer);
 
     let approveTx;
     let depositAllowance = await sbhdContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
@@ -84,7 +84,7 @@ export const changeApproval = createAsyncThunk(
     }
 
     try {
-      if (token === "svaldao") {
+      if (token === "sHOM") {
         approveTx = await sbhdContract.approve(
           addresses[networkID].PT_PRIZE_POOL_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),

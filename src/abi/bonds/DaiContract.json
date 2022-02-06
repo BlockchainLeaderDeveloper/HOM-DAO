@@ -4,7 +4,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_Valdao",
+          "name": "_HOMdao",
           "type": "address"
         },
         {
@@ -196,7 +196,7 @@
     },
     {
       "inputs": [],
-      "name": "Valdao",
+      "name": "HOMdao",
       "outputs": [
         {
           "internalType": "address",
@@ -647,7 +647,7 @@
     {
       "inputs": [
         {
-          "internalType": "enum ValdaoBondDepository.PARAMETER",
+          "internalType": "enum HOMDaoBondDepository.PARAMETER",
           "name": "_parameter",
           "type": "uint8"
         },

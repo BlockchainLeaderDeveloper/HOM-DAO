@@ -5,7 +5,8 @@ import Social from "./Social";
 import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
-import { ReactComponent as PresaleIcon } from "../../assets/icons/presale.svg";
+import { ReactComponent as PresaleIcon } from "../../assets/icons/33-together.svg";
+import { ReactComponent as ClaimIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
 import { ReactComponent as BigHeadIcon } from "../../assets/icons/bighead-nav-header.svg";
 import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
@@ -38,7 +39,8 @@ function NavContent() {
 
 
   const CustomePaper = styled(Paper)`
-    background-image: url('/images/sidebar-image.png')
+    // background-image: url('/images/sidebar-image.png')
+
   `;
   
   return (
@@ -47,12 +49,12 @@ function NavContent() {
         <div className="dapp-menu-top">
           <Box className="branding-header">
             <Link href="/" target="_blank">
-              <img src = "/images/logo.png" style={{ "padding":"30px"}}></img>
+              <img src = "/images/token-logo3.png" style={{ "width":"100%","padding":"30px"}}></img>
               <div className="wallet-link f-32">HOM DAO</div>
             </Link>
             {address && (
               <div className="wallet-link">
-                <Link href={`https://snowtrace.io/address/${address}`} target="_blank">
+                <Link href={`https://polygonscan.com/address/${address}`} target="_blank">
                   {shorten(address)}
                 </Link>
               </div>
@@ -87,7 +89,7 @@ function NavContent() {
                 className={`button-dapp-menu bg-color-sidebar-btn ${isActive ? "active" : ""}`}
               >
                 <Typography variant="h6">
-                  <SvgIcon color="primary" component={PresaleIcon} />
+                  <SvgIcon color="primary" component={ClaimIcon} />
                   Claim
                 </Typography>
               </Link>

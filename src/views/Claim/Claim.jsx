@@ -29,12 +29,12 @@ function Claim() {
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
-  const pvaldaoBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.pvaldao;
+  const pHOMBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.pHOM;
   });
-  console.log("debug --> Claim / pvaldaoBalance : ", pvaldaoBalance);
+  console.log("debug --> Claim / pHOMBalance : ", pHOMBalance);
   const setMax = () => {
-    setQuantity(pvaldaoBalance);
+    setQuantity(pHOMBalance);
   };
   const onSeekApproval = async token => {
     await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
@@ -52,7 +52,7 @@ function Claim() {
     // 1st catch if quantity > balance
     let gweiValue = ethers.utils.parseUnits(quantity, "gwei");
 
-    if (action === "claim" && gweiValue.gt(ethers.utils.parseUnits(pvaldaoBalance, "gwei"))) {
+    if (action === "claim" && gweiValue.gt(ethers.utils.parseUnits(pHOMBalance, "gwei"))) {
       return dispatch(error("You cannot claim more than your pBHD balance."));
     }
     await dispatch(changeClaim({ address, action, value: quantity.toString(), provider, networkID: chainID }));
@@ -83,9 +83,9 @@ function Claim() {
                   <Box className="help-text">
                     <Typography variant="body1" className="stake-note" color="textSecondary">
                       <>
-                        First time use <b>aVALDAO</b>?
+                        First time use <b>pHOM</b>?
                         <br />
-                        Please approve Valhalla Dao to use your <b>aVALDAO</b> for claim VALDAO.
+                        Please approve HOM Dao to use your <b>pHOM</b> for claim HOM.
                       </>
                     </Typography>
                   </Box>
@@ -131,7 +131,7 @@ function Claim() {
                       onChangeClaim("claim");
                     }}
                   >
-                    {txnButtonText(pendingTransactions, "claim", "Claim VALDAO")}
+                    {txnButtonText(pendingTransactions, "claim", "Claim HOM")}
                   </Button>
                 </Grid>
               ) : (

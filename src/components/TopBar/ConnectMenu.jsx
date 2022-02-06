@@ -40,7 +40,7 @@ function ConnectMenu({ theme }) {
     "pending-txn-container" + (isHovering && pendingTransactions.length > 0 ? " hovered-button" : "");
 
   const getEtherscanUrl = txnHash => {
-    return "https://snowtrace.io/tx/" + txnHash;
+    return "https://polygonscan.com/tx/" + txnHash;
   };
 
   useEffect(() => {

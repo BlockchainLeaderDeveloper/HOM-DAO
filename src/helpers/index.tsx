@@ -8,14 +8,14 @@ import { SvgIcon } from "@material-ui/core";
 import { ReactComponent as BhdImg } from "../assets/tokens/token_BHD.svg";
 import { ReactComponent as SBhdImg } from "../assets/tokens/token_sBHD.svg";
 
-import { MIM_Valdao } from "./AllBonds";
+import { DAI_HOMDAO } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 
 // NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
-  const MIM_Valdao_address = MIM_Valdao.getAddressForReserve(networkID);
-  const pairContract = new ethers.Contract(MIM_Valdao_address, PairContract, provider);
+  const DAI_HOMDAO_address = DAI_HOMDAO.getAddressForReserve(networkID);
+  const pairContract = new ethers.Contract(DAI_HOMDAO_address, PairContract, provider);
   const reserves = await pairContract.getReserves();
   const marketPrice = reserves[0] / reserves[1];
 
@@ -113,8 +113,8 @@ export function getBhdTokenImage(w?: number, h?: number) {
 }
 
 export function getTokenImage(name: string) {
-  if (name === "valdao") return getBhdTokenImage();
-  if (name === "svaldao") return getSbhdTokenImage();
+  if (name === "HOM") return getBhdTokenImage();
+  if (name === "sHOM") return getSbhdTokenImage();
 }
 
 // TS-REFACTOR-NOTE - Used for:

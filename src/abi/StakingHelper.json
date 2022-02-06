@@ -9,7 +9,7 @@
         },
         {
           "internalType": "address",
-          "name": "_Valdao",
+          "name": "_HOM",
           "type": "address"
         }
       ],
@@ -18,7 +18,7 @@
     },
     {
       "inputs": [],
-      "name": "Valdao",
+      "name": "HOM",
       "outputs": [
         {
           "internalType": "address",

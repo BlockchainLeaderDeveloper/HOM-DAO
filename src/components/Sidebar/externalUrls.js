@@ -51,14 +51,17 @@ const externalUrls = [
   // },
   {
     title: " Buy on Quickswap",
-    url: "https://traderjoexyz.com/#/trade?inputCurrency=&outputCurrency=0x84506992349429DaC867B2168843FfcA263af6E8",
-    icon: <img src="/images/traderjoe.png" style={{"width":"24px"}} />,
+    url: "https://quickswap.exchange/#/swap?inputCurrency=0x8f3cf7ad23cd3cadbd9735aff958023239c6a063&outputCurrency=0x9fe19698aE613Ae626CC3670A92A105e1089D68E",
+    
+    
+    // https://traderjoexyz.com/#/trade?inputCurrency=&outputCurrency=0x84506992349429DaC867B2168843FfcA263af6E8",
+    icon: <img src="/images/quickswap_logo.png" style={{"width":"24px"}} />,
   },
-  {
-    title: "Chart",
-    url: "https://dexscreener.com/avalanche/0x84506992349429DaC867B2168843FfcA263af6E8",
-    // icon: <img src="/images/traderjoe.png" style={{"width":"24px"}} />,
-  },
+  // {
+  //   title: "Chart",
+  //   url: "https://dexscreener.com/avalanche/0x84506992349429DaC867B2168843FfcA263af6E8",
+  //   // icon: <img src="/images/traderjoe.png" style={{"width":"24px"}} />,
+  // },
   // {
   //   title: "Feedback",
   //   url: "https://olympusdao.canny.io/",

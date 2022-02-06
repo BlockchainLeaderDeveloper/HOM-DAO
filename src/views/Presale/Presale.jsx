@@ -88,7 +88,7 @@ function Presale() {
     let gweiValue = ethers.utils.parseUnits(quantity, "ether");
 
     if (action === "presale" && gweiValue.gt(ethers.utils.parseUnits(mimBalance, "ether"))) {
-      return dispatch(error("You cannot deposit more than your MIM balance."));
+      return dispatch(error("You cannot deposit more than your DAI balance."));
     }
     await dispatch(changeDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
   };
@@ -164,7 +164,7 @@ function Presale() {
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <div className="stake-apy">
                     <Typography variant="h5" color="textSecondary">
-                      aVALDAO Price
+                      pHOM Price
                     </Typography>
                       {tokenPrice ? (
                           <Typography variant="h4" color="textSecondary">
@@ -190,9 +190,9 @@ function Presale() {
                     <Box className="help-text">
                       <Typography variant="body1" className="stake-note" color="textSecondary">
                         <>
-                          First time deposit <b>MIM</b>?
+                          First time deposit <b>DAI</b>?
                           <br />
-                          Please approve Valhalla Dao to use your <b>MIM</b> for presale.
+                          Please approve HOM Dao to use your <b>DAI</b> for presale.
                         </>
                       </Typography>
                     </Box>
@@ -251,7 +251,7 @@ function Presale() {
                           onChangeDeposit("presale");
                         }}
                       >
-                        {txnButtonText(pendingTransactions, "deposit", "Deposit MIM")}
+                        {txnButtonText(pendingTransactions, "deposit", "Deposit DAI")}
                       </Button>
                     </Grid>
                   </>

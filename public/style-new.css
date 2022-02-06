@@ -261,7 +261,7 @@
 }
 
 .app.dark .MuiPaper-root.ohm-card {
-	background: #202025;
+	background: #160828;
 	border: 1px solid #d7c4988f;
 	-webkit-box-sizing: border-box;
 	        box-sizing: border-box;
@@ -332,6 +332,7 @@
 	font-size: 18px;
 	line-height: 40px;
 	font-weight: 400;
+	padding-left:10px;
 }
 
 .app.dark .MuiLink-root.active {

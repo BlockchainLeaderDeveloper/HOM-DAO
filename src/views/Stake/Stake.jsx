@@ -36,7 +36,7 @@ function a11yProps(index) {
   };
 }
 
-const sBhdImg = getTokenImage("svaldao");
+const sBhdImg = getTokenImage("sHOM");
 
 function Stake() {
   const dispatch = useDispatch();
@@ -58,23 +58,25 @@ function Stake() {
   const oldfiveDayRate = useSelector(state => {
     return state.app.old_fiveDayRate;
   });
-  const valdaoBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.valdao;
+  const HOMBalance = useSelector(state => {
+    console.log('state',state)
+    return state.account.balances && state.account.balances.HOM;
   });
-  const svaldaoBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.svaldao;
+
+  const sHOMBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.sHOM;
   });
-  const oldsvaldaoBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.oldsvaldao;
+  const oldsHOMBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.oldsHOM;
   });
-  const wsvaldaoBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.wsvaldao;
+  const wsHOMBalance = useSelector(state => {
+    return state.account.balances && state.account.balances.wsHOM;
   });
   const stakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.valdaoStake;
+    return state.account.staking && state.account.staking.HOMStake;
   });
   const unstakeAllowance = useSelector(state => {
-    return state.account.staking && state.account.staking.valdaoUnstake;
+    return state.account.staking && state.account.staking.HOMUnstake;
   });
   // const oldunstakeAllowance = useSelector(state => {
   //   return state.account.staking && state.account.staking.oldhecUnstake;
@@ -98,13 +100,13 @@ function Stake() {
 
   const setMax = () => {
     if (view === 0) {
-      setQuantity(valdaoBalance);
+      setQuantity(HOMBalance);
     } else {
-      setQuantity(svaldaoBalance);
+      setQuantity(sHOMBalance);
     }
   };
   const setOldMax = () => {
-    setOldQuantity(oldsvaldaoBalance);
+    setOldQuantity(oldsHOMBalance);
   };
 
   const onSeekApproval = async token => {
@@ -115,7 +117,7 @@ function Stake() {
     // eslint-disable-next-line no-restricted-globals
     let value, unstakedVal;
     value = quantity;
-    unstakedVal = svaldaoBalance;
+    unstakedVal = sHOMBalance;
     if (isNaN(value) || value === 0 || value === "") {
       // eslint-disable-next-line no-alert
       return dispatch(error("Please enter a value!"));
@@ -123,12 +125,12 @@ function Stake() {
 
     // 1st catch if quantity > balance
     let gweiValue = ethers.utils.parseUnits(value, "gwei");
-    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(valdaoBalance, "gwei"))) {
-      return dispatch(error("You cannot stake more than your VALDAO balance."));
+    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(HOMBalance, "gwei"))) {
+      return dispatch(error("You cannot stake more than your HOM balance."));
     }
 
     if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(unstakedVal, "gwei"))) {
-      return dispatch(error("You cannot unstake more than your sVALDAO balance."));
+      return dispatch(error("You cannot unstake more than your sHOM balance."));
     }
     await dispatch(
       changeStake({
@@ -144,9 +146,9 @@ function Stake() {
 
   const hasAllowance = useCallback(
     token => {
-      if (token === "valdao") return stakeAllowance > 0;
-      if (token === "svaldao") return unstakeAllowance > 0;
-      if (token === "oldsvaldao") return oldunstakeAllowance > 0;
+      if (token === "HOM") return stakeAllowance > 0;
+      if (token === "sHOM") return unstakeAllowance > 0;
+      if (token === "oldsHOM") return oldunstakeAllowance > 0;
       return 0;
     },
     [stakeAllowance, unstakeAllowance],
@@ -167,14 +169,14 @@ function Stake() {
   };
 
   const trimmedBalance = Number(
-    [svaldaoBalance, wsvaldaoBalance]
+    [sHOMBalance, wsHOMBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
       .toFixed(4),
   );
   const oldtrimmedBalance = Number(
-    [oldsvaldaoBalance, wsvaldaoBalance]
+    [oldsHOMBalance, wsHOMBalance]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -200,7 +202,7 @@ function Stake() {
                   <Typography variant="h5">Single Stake (3, 3)</Typography>
                   <RebaseTimer />
 
-                  {address && oldsvaldaoBalance > 0.01 && (
+                  {address && oldsHOMBalance > 0.01 && (
                     <Link
                       className="migrate-sohm-button"
                       style={{ textDecoration: "none" }}
@@ -209,7 +211,7 @@ function Stake() {
                       target="_blank"
                     >
                       <NewReleases viewBox="0 0 24 24" />
-                      <Typography>Migrate sVALDAO!</Typography>
+                      <Typography>Migrate sHOM!</Typography>
                     </Link>
                   )}
                 </div>
@@ -256,7 +258,7 @@ function Stake() {
                           Current Index
                         </Typography>
                         <Typography variant="h4">
-                          {currentIndex ? <>{trim(currentIndex, 1)} VALDAO</> : <Skeleton width="150px" />}
+                          {currentIndex ? <>{trim(currentIndex, 1)} HOM</> : <Skeleton width="150px" />}
                         </Typography>
                       </div>
                     </Grid>
@@ -270,7 +272,7 @@ function Stake() {
                     <div className="wallet-menu" id="wallet-menu">
                       {modalButton}
                     </div>
-                    <Typography variant="h6">Connect your wallet to stake VALDAO</Typography>
+                    <Typography variant="h6">Connect your wallet to stake HOM</Typography>
                   </div>
                 ) : (
                   <>
@@ -291,20 +293,20 @@ function Stake() {
 
                       <Box className="stake-action-row " display="flex" alignItems="center">
                         {address && !isAllowanceDataLoading ? (
-                          (!hasAllowance("valdao") && view === 0) || (!hasAllowance("svaldao") && view === 1) ? (
+                          (!hasAllowance("HOM") && view === 0) || (!hasAllowance("sHOM") && view === 1) ? (
                             <Box className="help-text">
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
                                   <>
-                                    First time staking <b>VALDAO</b>?
+                                    First time staking <b>HOM</b>?
                                     <br />
-                                    Please approve Valhalla DAO to use your <b>VALDAO</b> for staking.
+                                    Please approve HOM DAO to use your <b>HOM</b> for staking.
                                   </>
                                 ) : (
                                   <>
-                                    First time unstaking <b>sVALDAO</b>?
+                                    First time unstaking <b>sHOM</b>?
                                     <br />
-                                    Please approve Valhalla DAO to use your <b>sVALDAO</b> for unstaking.
+                                    Please approve HOM DAO to use your <b>sHOM</b> for unstaking.
                                   </>
                                 )}
                               </Typography>
@@ -337,7 +339,7 @@ function Stake() {
                         <TabPanel value={view} index={0} className="stake-tab-panel">
                           {isAllowanceDataLoading ? (
                             <Skeleton />
-                          ) : address && hasAllowance("valdao") ? (
+                          ) : address && hasAllowance("HOM") ? (
                             <Button
                               className="stake-button"
                               variant="contained"
@@ -347,7 +349,7 @@ function Stake() {
                                 onChangeStake("stake", false);
                               }}
                             >
-                              {txnButtonText(pendingTransactions, "staking", "Stake VALDAO")}
+                              {txnButtonText(pendingTransactions, "staking", "Stake HOM")}
                             </Button>
                           ) : (
                             <Button
@@ -356,7 +358,7 @@ function Stake() {
                               color="primary"
                               disabled={isPendingTxn(pendingTransactions, "approve_staking")}
                               onClick={() => {
-                                onSeekApproval("valdao");
+                                onSeekApproval("HOM");
                               }}
                             >
                               {txnButtonText(pendingTransactions, "approve_staking", "Approve")}
@@ -366,7 +368,7 @@ function Stake() {
                         <TabPanel value={view} index={1} className="stake-tab-panel">
                           {isAllowanceDataLoading ? (
                             <Skeleton />
-                          ) : address && hasAllowance("svaldao") ? (
+                          ) : address && hasAllowance("sHOM") ? (
                             <Button
                               className="stake-button"
                               variant="contained"
@@ -376,7 +378,7 @@ function Stake() {
                                 onChangeStake("unstake", false);
                               }}
                             >
-                              {txnButtonText(pendingTransactions, "unstaking", "Unstake VALDAO")}
+                              {txnButtonText(pendingTransactions, "unstaking", "Unstake HOM")}
                             </Button>
                           ) : (
                             <Button
@@ -385,7 +387,7 @@ function Stake() {
                               color="primary"
                               disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
                               onClick={() => {
-                                onSeekApproval("svaldao");
+                                onSeekApproval("sHOM");
                               }}
                             >
                               {txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}
@@ -399,21 +401,21 @@ function Stake() {
                       <div className="data-row">
                         <Typography variant="body1">Your Balance</Typography>
                         <Typography variant="body1">
-                          {isAppLoading ? <Skeleton width="80px" /> : <>{trim(valdaoBalance, 4)} VALDAO</>}
+                          {isAppLoading ? <Skeleton width="80px" /> : <>{trim(HOMBalance, 4)} HOM</>}
                         </Typography>
                       </div>
 
                       <div className="data-row">
                         <Typography variant="body1">Your Staked Balance</Typography>
                         <Typography variant="body1">
-                          {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sVALDAO</>}
+                          {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sHOM</>}
                         </Typography>
                       </div>
 
                       <div className="data-row">
                         <Typography variant="body1">Next Reward Amount</Typography>
                         <Typography variant="body1">
-                          {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sVALDAO</>}
+                          {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sHOM</>}
                         </Typography>
                       </div>
 

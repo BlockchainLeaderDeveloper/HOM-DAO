@@ -1,7 +1,7 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as ValdaoStaking } from "../abi/ValdaoStaking.json";
+import { abi as HOMdaoStaking } from "../abi/HOMdaoStaking.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -24,9 +24,9 @@ function alreadyApprovedToken(token: string, stakeAllowance: BigNumber, unstakeA
   let applicableAllowance = bigZero;
 
   // determine which allowance to check
-  if (token === "valdao") {
+  if (token === "HOM") {
     applicableAllowance = stakeAllowance;
-  } else if (token === "svaldao") {
+  } else if (token === "sHOM") {
     applicableAllowance = unstakeAllowance;
   }
 
@@ -45,11 +45,11 @@ export const changeApproval = createAsyncThunk(
     }
     console.log('debug->token',token);
     const signer = provider.getSigner();
-    const valdaoContract = new ethers.Contract(addresses[networkID].VALDAO_ADDRESS as string, ierc20Abi, signer);
-    const svaldaoContract = new ethers.Contract(addresses[networkID].SVALDAO_ADDRESS as string, ierc20Abi, signer);
+    const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, signer);
+    const sHOMContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS as string, ierc20Abi, signer);
     let approveTx;
-    let stakeAllowance = await valdaoContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    let unstakeAllowance = await svaldaoContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    let stakeAllowance = await HOMContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    let unstakeAllowance = await sHOMContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
 
     // return early if approval has already happened
     if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance)) {
@@ -57,29 +57,29 @@ export const changeApproval = createAsyncThunk(
       return dispatch(
         fetchAccountSuccess({
           staking: {
-            valdaoStake: +stakeAllowance,
-            valdaoUnstake: +unstakeAllowance,
+            HOMStake: +stakeAllowance,
+            HOMUnstake: +unstakeAllowance,
           },
         }),
       );
     }
 
     try {
-      if (token === "valdao") {
+      if (token === "HOM") {
         // won't run if stakeAllowance > 0
-        approveTx = await valdaoContract.approve(
+        approveTx = await HOMContract.approve(
           addresses[networkID].STAKING_HELPER_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
-      } else if (token === "svaldao") {
-        approveTx = await svaldaoContract.approve(
+      } else if (token === "sHOM") {
+        approveTx = await sHOMContract.approve(
           addresses[networkID].STAKING_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
       }
 
-      const text = "Approve " + (token === "valdao" ? "Staking" : "Unstaking");
-      const pendingTxnType = token === "valdao" ? "approve_staking" : "approve_unstaking";
+      const text = "Approve " + (token === "HOM" ? "Staking" : "Unstaking");
+      const pendingTxnType = token === "HOM" ? "approve_staking" : "approve_unstaking";
       dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
 
       await approveTx.wait();
@@ -93,8 +93,8 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowances
-    stakeAllowance = await valdaoContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    unstakeAllowance = await svaldaoContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+    stakeAllowance = await HOMContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    unstakeAllowance = await sHOMContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
@@ -117,7 +117,7 @@ export const changeStake = createAsyncThunk(
 
     const signer = provider.getSigner();
     let staking, stakingHelper;
-    staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, ValdaoStaking, signer);
+    staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, HOMdaoStaking, signer);
     stakingHelper = new ethers.Contract(addresses[networkID].STAKING_HELPER_ADDRESS as string, StakingHelper, signer);
 
     let stakeTx;

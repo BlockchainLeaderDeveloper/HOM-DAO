@@ -155,7 +155,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
               <div className="help-text">
                 <em>
                   <Typography variant="body1" align="center" color="textSecondary">
-                    First time bonding <b>{bond.displayName}</b>? <br /> Please approve Valhalla DAO to use your{" "}
+                    First time bonding <b>{bond.displayName}</b>? <br /> Please approve HOM DAO to use your{" "}
                     <b>{bond.displayName}</b> for bonding.
                   </Typography>
                 </em>
@@ -227,9 +227,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
             <Typography>You Will Get</Typography>
             <Typography id="bond-value-id" className="price-data">
               {isSoldOut ? (
-                "0 VALDAO"
+                "0 HOMDAO"
               ) : (
-                <>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} VALDAO`}</>
+                <>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} HOMDAO`}</>
               )}
             </Typography>
           </div>
@@ -237,7 +237,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           <div className={`data-row`}>
             <Typography>Max You Can Buy</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} VALDAO`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} HOMDAO`}
             </Typography>
           </div>
 
@@ -247,7 +247,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
               {isSoldOut ? (
                 "--"
               ) : (
-                <>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount, 4) || "0"} VALDAO`}</>
+                <>{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondDiscount, 4) || "0"} HOMDAO`}</>
               )}
             </Typography>
           </div>

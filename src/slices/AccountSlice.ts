@@ -14,20 +14,21 @@ import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interf
 export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const valdaoContract = new ethers.Contract(addresses[networkID].VALDAO_ADDRESS as string, ierc20Abi, provider);
-    const valdaoBalance = await valdaoContract.balanceOf(address);
-    const svaldaoContract = new ethers.Contract(addresses[networkID].SVALDAO_ADDRESS as string, sBHD, provider);
-    const svaldaoBalance = await svaldaoContract.balanceOf(address);
-    let poolBalance = 0;
-    const poolTokenContract = new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS as string, ierc20Abi, provider);
-    poolBalance = await poolTokenContract.balanceOf(address);
-
     console.log('debug->dashboard1')
+    const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, provider);
+    const HOMBalance = await HOMContract.balanceOf(address);
+    const sHOMContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS as string, sBHD, provider);
+    const sHOMBalance = await sHOMContract.balanceOf(address);
+   // let poolBalance = 0;
+    //const poolTokenContract = new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS as string, ierc20Abi, provider);
+    //poolBalance = await poolTokenContract.balanceOf(address);
+
+
     return {
       balances: {
-        valdao: ethers.utils.formatUnits(valdaoBalance, "gwei"),
-        svaldao: ethers.utils.formatUnits(svaldaoBalance, "gwei"),
-        pool: ethers.utils.formatUnits(poolBalance, "gwei"),
+        HOM: ethers.utils.formatUnits(HOMBalance, "gwei"),
+        sHOM: ethers.utils.formatUnits(sHOMBalance, "gwei"),
+        // pool: ethers.utils.formatUnits(poolBalance, "gwei"),
       },
     };
   },
@@ -36,51 +37,55 @@ export const getBalances = createAsyncThunk(
 export const loadAccountDetails = createAsyncThunk(
   "account/loadAccountDetails",
   async ({ networkID, provider, address }: IBaseAddressAsyncThunk) => {
-    let valdaoBalance = 0;
-    let svaldaoBalance = 0;
-    let pvaldaoBalance = 0;
+    let HOMBalance = 0;
+    let sHOMBalance = 0;
+    let pHOMBalance = 0;
     let mimBalance = 0;
     let presaleAllowance = 0;
     let claimAllowance = 0;
     let stakeAllowance = 0;
     let unstakeAllowance = 0;
     let daiBondAllowance = 0;
-    let poolAllowance = 0;
+  //  let poolAllowance = 0;
     let multiSignBalance = 0;
     
-    const daiContract = new ethers.Contract(addresses[networkID].MIM_ADDRESS as string, ierc20Abi, provider);
+    const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
     
-    const mimContract = new ethers.Contract(addresses[networkID].MIM_ADDRESS as string, ierc20Abi, provider);
+    const mimContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider);
     mimBalance = await mimContract.balanceOf(address);
 
-    multiSignBalance = await mimContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS) / Math.pow(10, 18);
-    console.log('debug multiSignBalance account', mimBalance);
-    const pvaldaoContract = new ethers.Contract(addresses[networkID].AVALDAO_ADDRESS as string, pBHD, provider);
-    pvaldaoBalance = await pvaldaoContract.balanceOf(address);
+    multiSignBalance = await daiContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS) / Math.pow(10, 18);
+    console.log('debug multiSignBalance account', daiBalance);
+    const pHOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, pBHD, provider);
+    pHOMBalance = await pHOMContract.balanceOf(address);
+   
 
 
-    const valdaoContract = new ethers.Contract(addresses[networkID].VALDAO_ADDRESS as string, ierc20Abi, provider);
-    valdaoBalance = await valdaoContract.balanceOf(address);
-    stakeAllowance = await valdaoContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, provider);
 
-    const svaldaoContract = new ethers.Contract(addresses[networkID].SVALDAO_ADDRESS as string, sBHD, provider);
-    svaldaoBalance = await svaldaoContract.balanceOf(address);
-    unstakeAllowance = await svaldaoContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    poolAllowance = await svaldaoContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    HOMBalance = await HOMContract.balanceOf(address);
+    stakeAllowance = await HOMContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
 
-    if (addresses[networkID].MIM_ADDRESS) {
-      presaleAllowance = await mimContract.allowance(address, addresses[networkID].PRESALE_ADDRESS);
+    const sHOMContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS as string, sBHD, provider);
+
+    sHOMBalance = await sHOMContract.balanceOf(address);
+    unstakeAllowance = await sHOMContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+ 
+   // poolAllowance = await sHOMContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    console.log('pHOMBALANCE',sHOMContract)
+    if (addresses[networkID].DAI_ADDRESS) {
+      presaleAllowance = await daiContract.allowance(address, addresses[networkID].PRESALE_ADDRESS);
     }
 
-    if (addresses[networkID].AVALDAO_ADDRESS) {
-      claimAllowance = await pvaldaoContract.allowance(address, addresses[networkID].PRESALE_ADDRESS);
+    if (addresses[networkID].PHOM_ADDRESS) {
+      claimAllowance = await pHOMContract.allowance(address, addresses[networkID].PRESALE_ADDRESS);
     }
 
     console.log('debug->dashboard2')
     
     const presaleContract = new ethers.Contract(addresses[networkID].PRESALE_ADDRESS as string, presaleAbi, provider);
-    const valdaoPrice = await presaleContract.getPriceForThisAddress(address);
+    const HOMPrice = await presaleContract.getPriceForThisAddress(address);
     const remainingAmount = await presaleContract.getUserRemainingAllocation(address);
     const isStarted = await presaleContract.started();
     const isEnded = await presaleContract.ended();
@@ -98,16 +103,16 @@ export const loadAccountDetails = createAsyncThunk(
     return {
       balances: {
         dai: ethers.utils.formatEther(daiBalance),
-        busd: ethers.utils.formatEther(mimBalance),
-        valdao: ethers.utils.formatUnits(valdaoBalance, "gwei"),
-        svaldao: ethers.utils.formatUnits(svaldaoBalance, "gwei"),
-        pvaldao: ethers.utils.formatUnits(pvaldaoBalance, "gwei"),
+        busd: ethers.utils.formatEther(daiBalance),
+        HOM: ethers.utils.formatUnits(HOMBalance, "gwei"),
+        sHOM: ethers.utils.formatUnits(sHOMBalance, "gwei"),
+        pHOM: ethers.utils.formatUnits(pHOMBalance, "gwei"),
         
       },
 
       presale: {
         presaleAllowance: +presaleAllowance,
-        tokenPrice: ethers.utils.formatEther(valdaoPrice),
+        tokenPrice: ethers.utils.formatEther(HOMPrice),
         remainingAmount: ethers.utils.formatEther(remainingAmount),
         presaleStatus: presaleStatus,
         minCap: ethers.utils.formatEther(minCap),
@@ -118,14 +123,14 @@ export const loadAccountDetails = createAsyncThunk(
         claimAllowance: +claimAllowance,
       },
       staking: {
-        valdaoStake: +stakeAllowance,
-        valdaoUnstake: +unstakeAllowance,
+        HOMStake: +stakeAllowance,
+        HOMUnstake: +unstakeAllowance,
       },
       bonding: {
         daiAllowance: daiBondAllowance,
       },
       pooling: {
-        svaldaoPool: +poolAllowance,
+        // sHOMPool: +poolAllowance,
       },
     };
   },
@@ -159,9 +164,9 @@ export const calculateUserBondDetails = createAsyncThunk(
     const bondContract = bond.getContractForBond(networkID, provider);
     const reserveContract = bond.getContractForReserve(networkID, provider);
 
-    const mimContract = new ethers.Contract(addresses[networkID].MIM_ADDRESS as string, ierc20Abi, provider);
+    const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider);
    
-    let multiSignBalance = await mimContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS);
+    let multiSignBalance = await daiContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS);
    
     console.log('debug->dashboard3')
     let interestDue, pendingPayout, bondMaturationTime;

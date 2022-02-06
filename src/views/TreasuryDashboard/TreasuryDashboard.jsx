@@ -47,7 +47,7 @@ function TreasuryDashboard() {
   const runwayValue = useSelector(state => {
     return state.app.runway;
   });
-  const backingPerValdao = useSelector(state => {
+  const backingPerHOM = useSelector(state => {
     if (state.bonding.loading == false) {
       let tokenBalances = 0;
       for (const bond in allBondsMap) {
@@ -117,7 +117,7 @@ function TreasuryDashboard() {
 
               <Box className="metric price">
                 <Typography variant="h6" color="textSecondary">
-                  VALDAO Price
+                  HOM Price
                 </Typography>
                 <Typography variant="h5">
                   {/* appleseed-fix */}
@@ -127,10 +127,10 @@ function TreasuryDashboard() {
 {/* 
               <Box className="metric wsoprice">
                 <Typography variant="h6" color="textSecondary">
-                  wsVALDAO Price
+                  wsHOM Price
                   <InfoTooltip
                     message={
-                      "wsVALDAO = sVALDAO * index\n\nThe price of wsVALDAO is equal to the price of VALDAO multiplied by the current index"
+                      "wsHOM = sHOM * index\n\nThe price of wsHOM is equal to the price of HOM multiplied by the current index"
                     }
                   />
                 </Typography>
@@ -155,10 +155,10 @@ function TreasuryDashboard() {
 
               <Box className="metric bpo" style={{"width":"40%", "margin-left":"9%"}}>
                 <Typography variant="h6" color="textSecondary">
-                  Backing per VALDAO
+                  Backing per HOM
                 </Typography>
                 <Typography variant="h5">
-                  {backingPerValdao ? formatCurrency(backingPerValdao, 2) : <Skeleton type="text" />}
+                  {backingPerHOM ? formatCurrency(backingPerHOM, 2) : <Skeleton type="text" />}
                 </Typography>
               </Box>
 
@@ -167,12 +167,12 @@ function TreasuryDashboard() {
                   Current Index
                   <InfoTooltip
                     message={
-                      "The current index tracks the amount of sVALDAO accumulated since the beginning of staking. Basically, how much sVALDAO one would have if they staked and held a single VALDAO from day 1."
+                      "The current index tracks the amount of sHOM accumulated since the beginning of staking. Basically, how much sHOM one would have if they staked and held a single HOM from day 1."
                     }
                   />
                 </Typography>
                 <Typography variant="h5">
-                  {currentIndex ? trim(currentIndex, 2) + " sVALDAO" : <Skeleton type="text" />}
+                  {currentIndex ? trim(currentIndex, 2) + " sHOM" : <Skeleton type="text" />}
                 </Typography>
               </Box>
               {/* <Box className="metric">
@@ -180,7 +180,7 @@ function TreasuryDashboard() {
                   Runway
                   <InfoTooltip
                     message={
-                      "Runway, is the number of days sVALDAO emissions can be sustained at a given rate. Lower APY = longer runway"
+                      "Runway, is the number of days sHOM emissions can be sustained at a given rate. Lower APY = longer runway"
                     }
                   />
                 </Typography>
@@ -271,7 +271,7 @@ function TreasuryDashboard() {
                   data={data}
                   dataKey={["treasuryBhdDaiPOL"]}
                   stopColor={[["rgba(128, 204, 131, 1)", "rgba(128, 204, 131, 0)"]]}
-                  headerText="Protocol Owned Liquidity VALDAO-DAI"
+                  headerText="Protocol Owned Liquidity HOM-DAI"
                   headerSubText={`${data && trim(data[0].treasuryBhdDaiPOL, 2)}% `}
                   dataFormat="percent"
                   bulletpointColors={bulletpoints.pol}
@@ -291,7 +291,7 @@ function TreasuryDashboard() {
                   data={staked}
                   dataKey={["staked"]}
                   stopColor={[["#55EBC7", "#47ACEB"]]}
-                  headerText="VALDAO Staked"
+                  headerText="HOM Staked"
                   dataFormat="percent"
                   headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
                   isStaked={true}

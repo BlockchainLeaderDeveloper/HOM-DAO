@@ -63,8 +63,8 @@ function HOMMenu() {
 
   const networkID = chainID;
 
-  const SVALDAO_ADDRESS = addresses[networkID].SVALDAO_ADDRESS;
-  const VALDAO_ADDRESS = addresses[networkID].VALDAO_ADDRESS;
+  const SHOM_ADDRESS = addresses[networkID].SHOM_ADDRESS;
+  const HOM_ADDRESS = addresses[networkID].HOM_ADDRESS;
   // const USDC_ADDRESS = addresses[networkID].USDC_ADDRESS;
 
   const handleClick = event => {
@@ -93,19 +93,19 @@ function HOMMenu() {
               <Paper className="ohm-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
                   <Link
-                    href={`https://pancakeswap.finance/swap?inputCurrency=${daiAddress}&outputCurrency=${VALDAO_ADDRESS}`}
+                    href={`https://quickswap.exchange/#/swap?inputCurrency=${daiAddress}&outputCurrency=${HOM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
                     <Button size="large" variant="contained" color="secondary" fullWidth>
                       <Typography align="left">
-                        Buy on PancakeSwap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
+                        Buy on QuickSwap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>
                   </Link>
 
                   {/* <Link
-                    href={`https://swap.spiritswap.finance/#/add/${USDC_ADDRESS}/${VALDAO_ADDRESS}`}
+                    href={`https://swap.spiritswap.finance/#/add/${USDC_ADDRESS}/${HOM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -141,7 +141,7 @@ function HOMMenu() {
                     <Divider color="secondary" />
                     <p>ADD TOKEN TO WALLET</p>
                     <Box display="flex" flexDirection="row" justifyContent="space-between">
-                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("HOM", VALDAO_ADDRESS)}>
+                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("HOM", HOM_ADDRESS)}>
                         <SvgIcon
                           component={HOMTokenImg}
                           viewBox="0 0 32 32"
@@ -149,7 +149,7 @@ function HOMMenu() {
                         />
                         <Typography variant="body1">HOM</Typography>
                       </Button>
-                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("sHOM", SVALDAO_ADDRESS)}>
+                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("sHOM", SHOM_ADDRESS)}>
                         <SvgIcon
                           component={sHOMTokenImg}
                           viewBox="0 0 32 32"

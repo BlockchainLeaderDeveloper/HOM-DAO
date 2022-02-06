@@ -96,7 +96,7 @@ export const calcBondDetails = createAsyncThunk(
     const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
     const totalDebt = await bondContract.totalDebt();
 
-    const mimContract = new ethers.Contract(addresses[networkID].MIM_ADDRESS as string, ierc20Abi, provider);
+    const mimContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider);
     
 
     let multiSignBalance = await mimContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS) / Math.pow(10, 18);

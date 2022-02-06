@@ -1,7 +1,7 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as ValdaoStaking } from "../abi/ValdaoStaking.json";
+import { abi as HOMdaoStaking } from "../abi/HOMdaoStaking.json";
 import { abi as StakingHelper } from "../abi/StakingHelper.json";
 import { abi as Presale } from "../abi/Presale.json";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
@@ -42,9 +42,10 @@ export const changeApproval = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-
+    console.log('busdContract')
     const signer = provider.getSigner();
-    const busdContract = new ethers.Contract(addresses[networkID].MIM_ADDRESS as string, ierc20Abi, signer);
+    const busdContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, signer);
+ 
     let approveTx;
     let presaleAllowance = await busdContract.allowance(address, addresses[networkID].PRESALE_ADDRESS);
 

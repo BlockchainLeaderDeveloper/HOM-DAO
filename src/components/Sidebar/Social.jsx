@@ -9,15 +9,15 @@ export default function Social() {
   const medium_link = "/";
   return (
     <div className="social-row">
-      <Link href="https://twitter.com/valhalla_dao" target="_blank">
+      <Link href="https://twitter.com/" target="_blank">
         <SvgIcon color="primary" component={Twitter} />
       </Link>
 
-      <Link href="https://discord.com/invite/C4TFc4PRvX" target="_blank">
+      <Link href="https://discord.com/invite/" target="_blank">
         <SvgIcon color="primary" component={Discord} />
       </Link>
 
-      <Link href="https://medium.com/@ValhallaDAO" target="_blank">
+      <Link href="https://medium.com/" target="_blank">
         <SvgIcon color="primary" component={Medium} />
       </Link>
     </div>

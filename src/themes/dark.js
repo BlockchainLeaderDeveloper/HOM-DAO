@@ -12,10 +12,10 @@ const darkTheme = {
   textHighlightColor: "#F4D092",
   backgroundColor: "#353E55df",
   background: `#fff`,
-  paperBg: "#151515",
+  paperBg: "#160828",
   modalBg: "#24242699",
   popoverBg: "rgba(54, 56, 64, 0.99)",
-  menuBg: "#36384080",
+  menuBg: "#160828",
   backdropBg: "rgba(54, 56, 64, 0.5)",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
@@ -29,7 +29,7 @@ const darkTheme = {
   outlinedPrimaryButtonHoverColor: "#333333",
   outlinedSecondaryButtonHoverBG: "transparent",
   outlinedSecondaryButtonHoverColor: "#F8CC82", //gold
-  containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.15)",
+  containedSecondaryButtonHoverBG: "rgba(255, 255, 255, 0.02)",
   graphStrokeColor: "rgba(255, 255, 255, .1)",
 };
 
