@@ -7,14 +7,16 @@ import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as sHOMTokenImg } from "../../assets/tokens/token_sHOM.svg";
 import { ReactComponent as HOMTokenImg } from "../../assets/tokens/token_HOM.svg";
+import { ReactComponent as pHOMTokenImg } from "../../assets/tokens/token_pHOM.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 
 import "./ohmmenu.scss";
 import { dai } from "src/helpers/AllBonds";
 import { useWeb3Context } from "../../hooks/web3Context";
 
-import HOMImg from "src/assets/tokens/HOM1.svg";
-import SHOMImg from "src/assets/tokens/HOM1.svg";
+import HOMImg from "src/assets/tokens/HOM.svg";
+import SHOMImg from "src/assets/tokens/sHOM.svg";
+import PHOMImg from "src/assets/tokens/pHOM.svg";
 import token33tImg from "src/assets/tokens/token_33T.svg";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
@@ -31,6 +33,9 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
         break;
       case "33T":
         tokenPath = token33tImg;
+        break;
+      case "pHOM":
+        tokenPath= PHOMImg;
         break;
       default:
         tokenPath = SHOMImg;
@@ -65,6 +70,7 @@ function HOMMenu() {
 
   const SHOM_ADDRESS = addresses[networkID].SHOM_ADDRESS;
   const HOM_ADDRESS = addresses[networkID].HOM_ADDRESS;
+  const PHOM_ADDRESS = addresses[networkID].PHOM_ADDRESS;
   // const USDC_ADDRESS = addresses[networkID].USDC_ADDRESS;
 
   const handleClick = event => {
@@ -156,6 +162,14 @@ function HOMMenu() {
                           style={{ height: "36px", width: "36px" }}
                         />
                         <Typography variant="body1">sHOM</Typography>
+                      </Button>
+                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("pHOM", PHOM_ADDRESS)}>
+                        <SvgIcon
+                          component={pHOMTokenImg}
+                          viewBox="0 0 32 32"
+                          style={{ height: "36px", width: "36px" }}
+                        />
+                        <Typography variant="body1">pHOM</Typography>
                       </Button>
                       {/* <Button variant="contained" color="secondary" onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}>
                         <SvgIcon

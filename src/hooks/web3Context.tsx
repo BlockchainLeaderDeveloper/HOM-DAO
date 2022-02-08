@@ -182,7 +182,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     const connectedAddress = await connectedProvider.getSigner().getAddress();
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
-      console.error("Wrong network, please switch to Avalanche");
+      console.error("Wrong network, please switch to Matic Mainnet");
       error("Please connect your wallet!");
       return;
     }

@@ -75,7 +75,7 @@ function NavContent() {
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={PresaleIcon} />
-                  Presale
+                  Contribute Now
                 </Typography>
               </Link>
 

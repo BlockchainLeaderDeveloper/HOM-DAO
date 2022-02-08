@@ -123,7 +123,6 @@ export const calcBondDetails = createAsyncThunk(
     }
     try {
       bondPrice = await bondContract.bondPriceInUSD();
-      
 
       // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
       bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
@@ -146,6 +145,7 @@ export const calcBondDetails = createAsyncThunk(
     } else {
       // RFV = DAI
       bondQuote = await bondContract.payoutFor(amountInWei);
+  
 
       if (!amountInWei.isZero() && bondQuote < 100000000000000) {
         bondQuote = 0;
@@ -171,6 +171,7 @@ export const calcBondDetails = createAsyncThunk(
       // bondDiscount = bondDiscount / Math.pow(10, 12) - 1;
     } else {
       bondPrice = bondPrice / Math.pow(10, 18);
+    
     }
     if (isSoldOut) {
       bondDiscount = -0.1;
@@ -222,6 +223,7 @@ export const bondAsset = createAsyncThunk(
     };
     try {
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+
 
       dispatch(
         fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bond.displayName, type: "bond_" + bond.name }),
