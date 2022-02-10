@@ -141,12 +141,12 @@ function TreasuryDashboard() {
               </Box> */}
 
               <Box className="metric circ">
-                <Typography variant="h6" color="textSecondary">
+                <Typography variant="h6" color="textSecondary" >
                   Circulating Supply (total)
                 </Typography>
                 <Typography variant="h5">
                   {circSupply && totalSupply ? (
-                    parseInt(circSupply) + " / " + parseInt(totalSupply)
+                    formatCurrency(circSupply, 0) + " / " + formatCurrency(totalSupply, 0)
                   ) : (
                     <Skeleton type="text" />
                   )}

@@ -5,6 +5,7 @@ import Social from "./Social";
 import externalUrls from "./externalUrls";
 import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
 import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
+import { ReactComponent as MindIcon } from "../../assets/icons/sun.svg";
 import { ReactComponent as PresaleIcon } from "../../assets/icons/33-together.svg";
 import { ReactComponent as ClaimIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
@@ -138,8 +139,20 @@ function NavContent() {
                   Bond
                 </Typography>
               </Link>
-
-        
+              <Link
+                component={NavLink}
+                id="mint-nav"
+                to="/"
+                isActive={(match, location) => {
+                  return checkPage(match, location, "mint");
+                }}
+                className={`button-dapp-menu bg-color-sidebar-btn ${isActive ? "active" : ""}`}
+              >
+                <Typography variant="h6">
+                  <SvgIcon color="primary" component={MindIcon} />
+                  MINT HOM-NFT (comming soon)
+                </Typography>
+              </Link>
             </div>
           </div>
         </div>

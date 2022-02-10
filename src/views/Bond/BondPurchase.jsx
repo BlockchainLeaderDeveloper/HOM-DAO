@@ -97,7 +97,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
       maxQ = bond.maxBondPrice * bond.bondPrice.toString();
     } else {
       maxQ = bond.balance;
-      if (bond.name == "hec_usdc_lp") {
+      if (bond.name == "usdc_hom_lp") {
         maxQ = (parseFloat(bond.balance) - 0.00000000000001).toFixed(14);
         if (maxQ < 0) {
           maxQ = 0;
@@ -136,7 +136,8 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   const isAllowanceDataLoading = bond.allowance == null;
 
   let balance = trim(bond.balance, 4);
-  if (bond.name == "hec_usdc_lp") {
+  console.log('bondname',bond)
+  if (bond.name == "usdc_hom_lp") {
     balance = new Intl.NumberFormat("en-US", { notation: "scientific" }).format(bond.balance);
   }
 

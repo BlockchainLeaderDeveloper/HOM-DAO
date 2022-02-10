@@ -2,7 +2,7 @@ import { Box, SvgIcon } from "@material-ui/core";
 
 function BondLogo({ bond }) {
   let viewBox = "0 0 32 32";
-  let style = { height: "32px", width: "32px" };
+  let style = { height: "42px", width: "42px" };
 
   // Need more space if its an LP token
   if (bond.isLP) {

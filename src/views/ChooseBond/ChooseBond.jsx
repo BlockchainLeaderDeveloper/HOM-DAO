@@ -35,6 +35,7 @@ function ChooseBond() {
   // });
   // const multiSignBalance = useSelector(state => state.account.balances.multiSignBalance);
   // console.log('debug multiSignBalance', multiSignBalance);
+
   const accountBonds = useSelector(state => {
     const withInterestDue = [];
     for (const bond in state.account.bonds) {
@@ -44,6 +45,7 @@ function ChooseBond() {
     }
     return withInterestDue;
   });
+  console.log('bonds',bonds)
 
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;
@@ -58,9 +60,9 @@ function ChooseBond() {
         if (state.bonding[bond]) {
           tokenBalances += state.bonding[bond].purchased;
         }
-        if(i == 0){
-          tokenBalances += state.bonding[bond].multiSignBalance;
-        }
+        // if(i == 0){
+        //   tokenBalances += state.bonding[bond].multiSignBalance;
+        // }
         i++;
       }
       
@@ -69,6 +71,7 @@ function ChooseBond() {
     }
   });
 
+
   return (
     <div id="choose-bond-view">
       {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
@@ -76,7 +79,7 @@ function ChooseBond() {
       <Zoom in={true}>
         <Paper className="ohm-card">
           <Box className="card-header">
-            <Typography variant="h5">Bond (1,1)</Typography>
+            <Typography variant="h5">Bond (🏡,🏡)</Typography>
           </Box>
 
           <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">

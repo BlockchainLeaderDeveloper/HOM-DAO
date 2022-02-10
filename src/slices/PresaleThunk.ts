@@ -44,7 +44,7 @@ export const changeApproval = createAsyncThunk(
     }
     console.log('busdContract')
     const signer = provider.getSigner();
-    const busdContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, signer);
+    const busdContract = new ethers.Contract(addresses[networkID].USDC_ADDRESS as string, ierc20Abi, signer);
  
     let approveTx;
     let presaleAllowance = await busdContract.allowance(address, addresses[networkID].PRESALE_ADDRESS);
@@ -122,7 +122,7 @@ export const changeDeposit = createAsyncThunk(
     try {
       uaData.type = "presale";
       console.log("depositing......");
-      console.log(ethers.utils.parseUnits(value, "ether"));
+      // console.log("111",ethers.utils.parseUnits(value, "ether"));
       console.log(address);
       console.log(presale);
       depositTx = await presale.deposit(ethers.utils.parseUnits(value, "ether"));

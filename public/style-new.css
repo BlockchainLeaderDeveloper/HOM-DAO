@@ -371,7 +371,7 @@
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border-radius: 5px;
-	background: #0C0C0C;
+	background: #482d74;
 }
 .app.dark #ohm-menu-button:hover path{
 	fill: #fff;
@@ -388,7 +388,7 @@
 	-webkit-transition: .3s;
 	-o-transition: .3s;
 	transition: .3s;
-	background: #0C0C0C;
+	background: #482d74;
 }
 
 .app.dark .pending-txn-container .MuiButton-label span {

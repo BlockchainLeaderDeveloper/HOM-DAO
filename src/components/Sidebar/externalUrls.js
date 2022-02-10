@@ -7,6 +7,7 @@ import { ReactComponent as FeedbackIcon } from "../../assets/icons/feedback.svg"
 import { SvgIcon } from "@material-ui/core";
 import { AccountBalanceOutlined, MonetizationOnOutlined } from "@material-ui/icons";
 
+
 const externalUrls = [
   // {
   //   title: "Forum",
@@ -44,11 +45,27 @@ const externalUrls = [
   //   url: "https://snapshot.org/#/hectordao.eth",
   //   icon: <SvgIcon color="primary" component={GovIcon} />,
   // },
-  // {
-  //   title: "Docs",
-  //   label: "(Coming soon)",
-  //   icon: <SvgIcon color="primary" component={DocsIcon} />,
-  // },
+  {
+    title: "Docs",
+    // label: "(Coming soon)",
+    
+    icon: <SvgIcon color="primary" component={DocsIcon} />,
+    url: "https://hom-dao.gitbook.io/hom-dao/",
+  },
+  {
+    title: "VOTE",
+    // label: "(Coming soon)",
+    
+    icon: <SvgIcon color="primary" component={DocsIcon} />,
+    url: "https://snapshot.org/#/homdao.eth/",
+  },
+  {
+    title: "SnapShot",
+    label: "(Coming soon)",
+    
+    icon: <SvgIcon color="primary" component={DocsIcon} />,
+   // url: "https://hom-dao.gitbook.io/hom-dao/",
+  },
   {
     title: " Buy on Quickswap",
     url: "https://quickswap.exchange/#/swap?inputCurrency=0x8f3cf7ad23cd3cadbd9735aff958023239c6a063&outputCurrency=0x9fe19698aE613Ae626CC3670A92A105e1089D68E",

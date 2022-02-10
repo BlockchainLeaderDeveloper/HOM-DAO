@@ -75,6 +75,13 @@ function Claim() {
             </div>
           </Grid>
         </Grid>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <div className="card-header">
+              <Typography variant="h6">Please deposit your pHOM token to claim the HOM token</Typography>
+            </div>
+          </Grid>
+        </Grid>
         <Grid item>
           <div className="stake-top-metrics" style={{ whiteSpace: "normal" }}>
             <Grid container spacing={1} alignItems="center" justifyContent="center">
@@ -85,7 +92,7 @@ function Claim() {
                       <>
                         First time use <b>pHOM</b>?
                         <br />
-                        Please approve HOM Dao to use your <b>pHOM</b> for claim HOM.
+                        Please approve HOM DAO to let you claim your <b>pHOM</b>
                       </>
                     </Typography>
                   </Box>

@@ -12,7 +12,7 @@ const darkTheme = {
   textHighlightColor: "#F4D092",
   backgroundColor: "#353E55df",
   background: `#fff`,
-  paperBg: "#160828",
+  paperBg: "#21132e",
   modalBg: "#24242699",
   popoverBg: "rgba(54, 56, 64, 0.99)",
   menuBg: "#160828",
@@ -60,7 +60,7 @@ export const dark = responsiveFontSizes(
         graphStrokeColor: darkTheme.graphStrokeColor,
       },
       typography: {
-        fontFamily: "NexaDemoLightFont",
+        fontFamily: "NexaDemoLight",
       },
       props: {
         MuiSvgIcon: {

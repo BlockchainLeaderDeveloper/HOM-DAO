@@ -49,14 +49,14 @@ export const loadAccountDetails = createAsyncThunk(
   //  let poolAllowance = 0;
     let multiSignBalance = 0;
     
-    const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider);
-    const daiBalance = await daiContract.balanceOf(address);
+    const USDC_ADDRESS = new ethers.Contract(addresses[networkID].USDC_ADDRESS as string, ierc20Abi, provider);
+    const usdcBalance = await USDC_ADDRESS.balanceOf(address);
     
-    const mimContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider);
+    const mimContract = new ethers.Contract(addresses[networkID].USDC_ADDRESS as string, ierc20Abi, provider);
     mimBalance = await mimContract.balanceOf(address);
 
-    multiSignBalance = await daiContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS) / Math.pow(10, 18);
-    console.log('debug multiSignBalance account', daiBalance);
+    multiSignBalance = await USDC_ADDRESS.balanceOf(addresses[networkID].MULTISIGN_ADDRESS) / Math.pow(10, 18);
+    console.log('debug multiSignBalance account', usdcBalance);
     const pHOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, pBHD, provider);
     pHOMBalance = await pHOMContract.balanceOf(address);
    
@@ -73,9 +73,9 @@ export const loadAccountDetails = createAsyncThunk(
     unstakeAllowance = await sHOMContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
  
    // poolAllowance = await sHOMContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
-    console.log('pHOMBALANCE',sHOMContract)
-    if (addresses[networkID].DAI_ADDRESS) {
-      presaleAllowance = await daiContract.allowance(address, addresses[networkID].PRESALE_ADDRESS);
+   
+    if (addresses[networkID].USDC_ADDRESS) {
+      presaleAllowance = await USDC_ADDRESS.allowance(address, addresses[networkID].PRESALE_ADDRESS);
     }
 
     if (addresses[networkID].PHOM_ADDRESS) {
@@ -97,13 +97,13 @@ export const loadAccountDetails = createAsyncThunk(
     } 
     if(isEnded)
       presaleStatus = "Presales was ended";
-    
+    console.log('usdcBalance',usdcBalance)
     
 
     return {
       balances: {
-        dai: ethers.utils.formatEther(daiBalance),
-        busd: ethers.utils.formatEther(daiBalance),
+       // dai: ethers.utils.formatEther(usdcBalance),
+        busd: ethers.utils.formatUnits(usdcBalance, 6),
         HOM: ethers.utils.formatUnits(HOMBalance, "gwei"),
         sHOM: ethers.utils.formatUnits(sHOMBalance, "gwei"),
         pHOM: ethers.utils.formatUnits(pHOMBalance, "gwei"),
@@ -164,11 +164,12 @@ export const calculateUserBondDetails = createAsyncThunk(
     const bondContract = bond.getContractForBond(networkID, provider);
     const reserveContract = bond.getContractForReserve(networkID, provider);
 
-    const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider);
+    const USDC_ADDRESS = new ethers.Contract(addresses[networkID].USDC_ADDRESS as string, ierc20Abi, provider);
    
-    let multiSignBalance = await daiContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS);
+    let multiSignBalance = await USDC_ADDRESS.balanceOf(addresses[networkID].MULTISIGN_ADDRESS);
    
     console.log('debug->dashboard3')
+    console.log('bond1',bond)
     let interestDue, pendingPayout, bondMaturationTime;
 
     const bondDetails = await bondContract.bondInfo(address);
@@ -186,8 +187,10 @@ export const calculateUserBondDetails = createAsyncThunk(
     let deciamls = 18;
     if (bond.name == "usdc") {
       deciamls = 6;
+
     }
     const balanceVal = balance / Math.pow(10, deciamls);
+    // console.log('bond1',bond)
     return {
       bond: bond.name,
       displayName: bond.displayName,
@@ -217,7 +220,10 @@ const initialState: IAccountSlice = {
   loading: false,
   bonds: {},
   balances: { bhd: "", sbhd: "", pbhd: "", dai: "", busd: "" },
+
 };
+
+console.log('initialState',initialState)
 
 const accountSlice = createSlice({
   name: "account",

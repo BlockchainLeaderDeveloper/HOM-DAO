@@ -117,7 +117,7 @@ export class LPBond extends Bond {
     const valuation = await bondCalculator.valuation(tokenAddress, tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress);
     let tokenUSD;
-    if (this.name == "hec_usdc_lp") {
+    if (this.name == "usdc_hom_lp") {
       tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));
     } else {
       tokenUSD = (valuation / Math.pow(10, 9)) * (markdown / Math.pow(10, 18));

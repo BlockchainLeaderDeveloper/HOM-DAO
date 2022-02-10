@@ -6,7 +6,7 @@ export default function NotFound() {
     <div id="not-found">
       <div className="not-found-header">
         <a href="https://HOMdao.finance/" target="_blank">
-          <img className="branding-header-icon" src={OlympusLogo} alt="Vahalla DAO" />
+          <img className="branding-header-icon" src={OlympusLogo} alt="HOM DAO" />
         </a>
 
         <h4>Page not found</h4>

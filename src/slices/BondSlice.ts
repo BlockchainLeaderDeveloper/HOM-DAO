@@ -89,6 +89,7 @@ export const calcBondDetails = createAsyncThunk(
       valuation = 0,
       bondQuote = 0;
       const bondContract = bond.getContractForBond(networkID, provider);
+      console.log('bondContract',bondContract)
     let bondCalcContract;
     bondCalcContract = getBondCalculator(networkID, provider);
     const terms = await bondContract.terms();
@@ -96,7 +97,7 @@ export const calcBondDetails = createAsyncThunk(
     const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
     const totalDebt = await bondContract.totalDebt();
 
-    const mimContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS as string, ierc20Abi, provider);
+    const mimContract = new ethers.Contract(addresses[networkID].USDC_ADDRESS as string, ierc20Abi, provider);
     
 
     let multiSignBalance = await mimContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS) / Math.pow(10, 18);
@@ -123,9 +124,9 @@ export const calcBondDetails = createAsyncThunk(
     }
     try {
       bondPrice = await bondContract.bondPriceInUSD();
-
       // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
       bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      console.log('bondPrice1',bondPrice)
     } catch (e) {
       console.log("error getting bondPriceInUSD", e);
     }
@@ -164,15 +165,18 @@ export const calcBondDetails = createAsyncThunk(
         " BHD.";
       dispatch(error(errorString));
     }
+    console.log('bondPrice3',bond);
     // Calculate bonds purchased
     let purchased = await bond.getTreasuryBalance(networkID, provider);
-    if (bond.name == "usdc" || bond.name == "hec_usdc_lp") {
-      bondPrice = bondPrice / Math.pow(10, 18);
-      // bondDiscount = bondDiscount / Math.pow(10, 12) - 1;
+    if (bond.name == "usdc" || bond.name == "usdc_hom_lp" || bond.name == "btc") {
+      bondPrice = bondPrice / Math.pow(10, 6);
+      bondDiscount = bondDiscount / Math.pow(10, 12) - 1;
+
     } else {
       bondPrice = bondPrice / Math.pow(10, 18);
     
     }
+    console.log('bondPrice2',bondPrice);
     if (isSoldOut) {
       bondDiscount = -0.1;
     }
@@ -193,6 +197,7 @@ export const calcBondDetails = createAsyncThunk(
     };
   },
 );
+
 
 export const bondAsset = createAsyncThunk(
   "bonding/bondAsset",

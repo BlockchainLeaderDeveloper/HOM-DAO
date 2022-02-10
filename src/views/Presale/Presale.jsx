@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import TabPanel from "../../components/TabPanel";
 import { changeApproval, changeDeposit } from "../../slices/PresaleThunk";
 import { useWeb3Context } from "src/hooks/web3Context";
-
+import { formatCurrency } from "../../helpers";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import {
   Paper,
@@ -39,6 +39,8 @@ function Presale() {
   const onSeekApproval = async token => {
     await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
   };
+
+
   const presaleAllowance = useSelector(state => {
     return state.account.presale && state.account.presale.presaleAllowance;
   });
@@ -66,12 +68,10 @@ function Presale() {
 
   const setMax = () => {
 
-    if(parseFloat(mimBalance) > parseFloat(remainingAmount))
-    {
+    if (parseFloat(mimBalance) > parseFloat(remainingAmount)) {
       setQuantity(remainingAmount)
     }
-    else
-    {
+    else {
       setQuantity(mimBalance);
     }
   };
@@ -88,7 +88,7 @@ function Presale() {
     let gweiValue = ethers.utils.parseUnits(quantity, "ether");
 
     if (action === "presale" && gweiValue.gt(ethers.utils.parseUnits(mimBalance, "ether"))) {
-      return dispatch(error("You cannot deposit more than your DAI balance."));
+      return dispatch(error("You cannot deposit more than your USDC balance."));
     }
     await dispatch(changeDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
   };
@@ -121,14 +121,14 @@ function Presale() {
                     <Typography variant="h5" color="textSecondary">
                       Min Amount
                     </Typography>
-                     {minCap ? (
-                        <Typography variant="h4" color="textSecondary">
-                        {minCap}
-                        </Typography>
-                        ) : (
-                        <Skeleton width="80%" />
-                        )
-                      }
+                    {minCap ? (
+                      <Typography variant="h4" color="textSecondary">
+                        {formatCurrency(minCap, 0)}
+                      </Typography>
+                    ) : (
+                      <Skeleton width="80%" />
+                    )
+                    }
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -137,13 +137,13 @@ function Presale() {
                       Limit per User
                     </Typography>
                     {cap ? (
-                        <Typography variant="h4" color="textSecondary">
-                        {cap}
-                        </Typography>
-                        ) : (
-                        <Skeleton width="80%" />
-                        )
-                      }
+                      <Typography variant="h4" color="textSecondary">
+                        {formatCurrency(cap, 0)}
+                      </Typography>
+                    ) : (
+                      <Skeleton width="80%" />
+                    )
+                    }
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -151,14 +151,14 @@ function Presale() {
                     <Typography variant="h5" color="textSecondary">
                       Remaining amount
                     </Typography>
-                   {remainingAmount ? (
-                        <Typography variant="h4" color="textSecondary">
-                        {remainingAmount}
-                        </Typography>
-                        ) : (
-                        <Skeleton width="80%" />
-                        )
-                      }
+                    {remainingAmount ? (
+                      <Typography variant="h4" color="textSecondary">
+                        {formatCurrency(remainingAmount, 0)}
+                      </Typography>
+                    ) : (
+                      <Skeleton width="80%" />
+                    )
+                    }
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -166,14 +166,14 @@ function Presale() {
                     <Typography variant="h5" color="textSecondary">
                       pHOM Price
                     </Typography>
-                      {tokenPrice ? (
-                          <Typography variant="h4" color="textSecondary">
-                          {tokenPrice === 0 ? "N/A" : tokenPrice}
-                          </Typography>
-                          ) : (
-                          <Skeleton width="80%" />
-                          )
-                        }
+                    {tokenPrice ? (
+                      <Typography variant="h4" color="textSecondary">
+                        {tokenPrice === 0 ? "N/A" : tokenPrice}
+                      </Typography>
+                    ) : (
+                      <Skeleton width="80%" />
+                    )
+                    }
                     {/* <Typography variant="h4" color="textSecondary">
                       {tokenPrice === 0 ? "N/A" : tokenPrice}
                     </Typography> */}
@@ -190,9 +190,9 @@ function Presale() {
                     <Box className="help-text">
                       <Typography variant="body1" className="stake-note" color="textSecondary">
                         <>
-                          First time deposit <b>DAI</b>?
+                          First time deposit <b>USDC</b>?
                           <br />
-                          Please approve HOM Dao to use your <b>DAI</b> for presale.
+                          Please approve HOM DAO to use your <b>USDC</b> for presale.
                         </>
                       </Typography>
                     </Box>
@@ -224,16 +224,16 @@ function Presale() {
                     </>
                   )
                 ) : (
-                  
+
                   <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        disabled = {address}
-                        onClick={connect}
-                      >
-                       {address ? "Loading..." : "Connect Wallet"} 
-                      </Button>
+                    className="stake-button"
+                    variant="contained"
+                    color="primary"
+                    disabled={address}
+                    onClick={connect}
+                  >
+                    {address ? "Loading..." : "Connect Wallet"}
+                  </Button>
                 )}
 
                 {isAllowanceDataLoading ? (
@@ -251,12 +251,13 @@ function Presale() {
                           onChangeDeposit("presale");
                         }}
                       >
-                        {txnButtonText(pendingTransactions, "deposit", "Deposit DAI")}
+                        {txnButtonText(pendingTransactions, "deposit", "Deposit USDC")}
                       </Button>
                     </Grid>
                   </>
                 ) : (
                   <Grid item xs={12} sm={6} md={6} lg={6}>
+                     <a href="https://docs.google.com/forms/d/13FuryNfCIyKQUAQe6N2skAaEi6ebrVsIWXhX7YQKj-Y/edit?usp=sharing" target="_blank" style={{'color':'transparent'}}>
                     <Button
                       className="stake-button"
                       variant="contained"
@@ -266,8 +267,10 @@ function Presale() {
                         onSeekApproval("mim");
                       }}
                     >
+                     
                       {txnButtonText(pendingTransactions, "approve_deposit", "Approve")}
                     </Button>
+                    </a>
                   </Grid>
                 )}
               </Grid>
