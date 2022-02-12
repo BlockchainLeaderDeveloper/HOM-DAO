@@ -59,13 +59,13 @@ const externalUrls = [
     icon: <SvgIcon color="primary" component={DocsIcon} />,
     url: "https://snapshot.org/#/homdao.eth/",
   },
-  {
-    title: "SnapShot",
-    label: "(Coming soon)",
+  // {
+  //   title: "SnapShot",
+  //   label: "(Coming soon)",
     
-    icon: <SvgIcon color="primary" component={DocsIcon} />,
-   // url: "https://hom-dao.gitbook.io/hom-dao/",
-  },
+  //   icon: <SvgIcon color="primary" component={DocsIcon} />,
+  //  // url: "https://hom-dao.gitbook.io/hom-dao/",
+  // },
   {
     title: " Buy on Quickswap",
     url: "https://quickswap.exchange/#/swap?inputCurrency=0x8f3cf7ad23cd3cadbd9735aff958023239c6a063&outputCurrency=0x9fe19698aE613Ae626CC3670A92A105e1089D68E",

@@ -31,9 +31,13 @@ function Presale() {
   const pendingTransactions = useSelector(state => {
     return state.pendingTransactions;
   });
+
   const mimBalance = useSelector(state => {
     return state.account.balances && state.account.balances.busd;
   });
+
+
+
 
 
   const onSeekApproval = async token => {
@@ -61,6 +65,10 @@ function Presale() {
     return state.account.presale && state.account.presale.cap;
   });
 
+  const whitelist = useSelector(state => {
+    return state.account.presale && state.account.presale.whitelistAddress;
+  });
+  console.log('whitelist', whitelist);
 
   const remainingAmount = useSelector(state => {
     return state.account.presale && state.account.presale.remainingAmount;
@@ -85,12 +93,15 @@ function Presale() {
 
     console.log("debug->chainID", provider)
     // 1st catch if quantity > balance
-    let gweiValue = ethers.utils.parseUnits(quantity, "ether");
+    let usdcquantity = ethers.utils.formatUnits(quantity * 1000000, 18);
+    let gweiValue = ethers.utils.parseUnits(usdcquantity, "ether");
+
+    console.log('quantity', quantity, gweiValue);
 
     if (action === "presale" && gweiValue.gt(ethers.utils.parseUnits(mimBalance, "ether"))) {
       return dispatch(error("You cannot deposit more than your USDC balance."));
     }
-    await dispatch(changeDeposit({ address, action, value: quantity.toString(), provider, networkID: chainID }));
+    await dispatch(changeDeposit({ address, action, value: usdcquantity.toString(), provider, networkID: chainID }));
   };
   const hasAllowance = useCallback(
     token => {
@@ -100,184 +111,256 @@ function Presale() {
     [presaleAllowance],
   );
   const isAllowanceDataLoading = presaleAllowance == null;
+  console.log('isAllowanceDataLoading', isAllowanceDataLoading)
 
 
 
   return (
     <div id="dashboard-view">
-      <Paper className={`ohm-card`}>
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <div className="card-header">
-              <Typography variant="h2">Presale</Typography>
-              {statusPresale}
-            </div>
-          </Grid>
-          <Grid item>
-            <div className="stake-top-metrics">
-              <Grid container spacing={2} alignItems="flex-end">
-                <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <div className="stake-apy">
-                    <Typography variant="h5" color="textSecondary">
-                      Min Amount
-                    </Typography>
-                    {minCap ? (
-                      <Typography variant="h4" color="textSecondary">
-                        {formatCurrency(minCap, 0)}
-                      </Typography>
-                    ) : (
-                      <Skeleton width="80%" />
-                    )
-                    }
-                  </div>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <div className="stake-apy">
-                    <Typography variant="h5" color="textSecondary">
-                      Limit per User
-                    </Typography>
-                    {cap ? (
-                      <Typography variant="h4" color="textSecondary">
-                        {formatCurrency(cap, 0)}
-                      </Typography>
-                    ) : (
-                      <Skeleton width="80%" />
-                    )
-                    }
-                  </div>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <div className="stake-apy">
-                    <Typography variant="h5" color="textSecondary">
-                      Remaining amount
-                    </Typography>
-                    {remainingAmount ? (
-                      <Typography variant="h4" color="textSecondary">
-                        {formatCurrency(remainingAmount, 0)}
-                      </Typography>
-                    ) : (
-                      <Skeleton width="80%" />
-                    )
-                    }
-                  </div>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <div className="stake-apy">
-                    <Typography variant="h5" color="textSecondary">
-                      pHOM Price
-                    </Typography>
-                    {tokenPrice ? (
-                      <Typography variant="h4" color="textSecondary">
-                        {tokenPrice === 0 ? "N/A" : tokenPrice}
-                      </Typography>
-                    ) : (
-                      <Skeleton width="80%" />
-                    )
-                    }
-                    {/* <Typography variant="h4" color="textSecondary">
-                      {tokenPrice === 0 ? "N/A" : tokenPrice}
-                    </Typography> */}
-                  </div>
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
-          <Grid item>
-            <div className="stake-top-metrics" style={{ whiteSpace: "normal" }}>
-              <Grid container spacing={1} alignItems="center" justifyContent="center">
-                {address && !isAllowanceDataLoading ? (
-                  !hasAllowance("mim") ? (
-                    <Box className="help-text">
-                      <Typography variant="body1" className="stake-note" color="textSecondary">
-                        <>
-                          First time deposit <b>USDC</b>?
-                          <br />
-                          Please approve HOM DAO to use your <b>USDC</b> for presale.
-                        </>
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <>
-                      <Grid item xs={12} sm={1} md={1} lg={1} />
-                      <Grid item xs={12} sm={4} md={4} lg={4}>
-                        <FormControl className="ohm-input" variant="outlined" color="primary">
-                          <InputLabel htmlFor="amount-input"></InputLabel>
-                          <OutlinedInput
-                            id="amount-input"
-                            type="number"
-                            placeholder="Enter an amount"
-                            className="stake-input"
-                            value={quantity}
-                            width="70%"
-                            onChange={e => setQuantity(e.target.value)}
-                            labelWidth={0}
-                            endAdornment={
-                              <InputAdornment position="end">
-                                <Button variant="text" onClick={setMax} color="inherit">
-                                  Max
-                                </Button>
-                              </InputAdornment>
-                            }
-                          />
-                        </FormControl>
-                      </Grid>
-                    </>
-                  )
-                ) : (
-
-                  <Button
-                    className="stake-button"
-                    variant="contained"
-                    color="primary"
-                    disabled={address}
-                    onClick={connect}
-                  >
-                    {address ? "Loading..." : "Connect Wallet"}
-                  </Button>
-                )}
-
-                {isAllowanceDataLoading ? (
-                  <></>
-                ) : address && hasAllowance("mim") ? (
-                  <>
-                    <Grid item xs={12} sm={2} md={2} lg={2} />
-                    <Grid item xs={12} sm={4} md={4} lg={4}>
-                      <Button
-                        className="stake-button"
-                        variant="contained"
-                        color="primary"
-                        disabled={true}
-                        onClick={() => {
-                          onChangeDeposit("presale");
-                        }}
-                      >
-                        {txnButtonText(pendingTransactions, "deposit", "Deposit USDC")}
-                      </Button>
-                    </Grid>
-                  </>
-                ) : (
+      {whitelist ? (
+        <Paper className={`ohm-card`}>
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <div className="card-header">
+                <Typography variant="h2">Contribution</Typography>
+                {statusPresale}
+              </div>
+            </Grid>
+            <Grid item>
+              <div className="stake-top-metrics">
+                <Grid container spacing={2} alignItems="flex-end">
                   <Grid item xs={12} sm={6} md={6} lg={6}>
-                     <a href="https://docs.google.com/forms/d/13FuryNfCIyKQUAQe6N2skAaEi6ebrVsIWXhX7YQKj-Y/edit?usp=sharing" target="_blank" style={{'color':'transparent'}}>
+                    <div className="stake-apy">
+                      <Typography variant="h5" color="textSecondary">
+                        Min Amount
+                      </Typography>
+                      {minCap ? (
+                        <Typography variant="h4" color="textSecondary">
+                          {formatCurrency(minCap, 0)}
+                        </Typography>
+                      ) : (
+                        <Skeleton width="80%" />
+                      )
+                      }
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} lg={6}>
+                    <div className="stake-apy">
+                      <Typography variant="h5" color="textSecondary">
+                        Limit per User
+                      </Typography>
+                      {cap ? (
+                        <Typography variant="h4" color="textSecondary">
+                          {formatCurrency(cap, 0)}
+                        </Typography>
+                      ) : (
+                        <Skeleton width="80%" />
+                      )
+                      }
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} lg={6}>
+                    <div className="stake-apy">
+                      <Typography variant="h5" color="textSecondary">
+                        Remaining amount
+                      </Typography>
+                      {remainingAmount ? (
+                        <Typography variant="h4" color="textSecondary">
+                          {formatCurrency(remainingAmount, 0)}
+                        </Typography>
+                      ) : (
+                        <Skeleton width="80%" />
+                      )
+                      }
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} lg={6}>
+                    <div className="stake-apy">
+                      <Typography variant="h5" color="textSecondary">
+                        pHOM Price
+                      </Typography>
+                      {tokenPrice ? (
+                        <Typography variant="h4" color="textSecondary">
+                          {tokenPrice === 0 ? "N/A" : tokenPrice}
+                        </Typography>
+                      ) : (
+                        <Skeleton width="80%" />
+                      )
+                      }
+                      {/* <Typography variant="h4" color="textSecondary">
+                         {tokenPrice === 0 ? "N/A" : tokenPrice}
+                       </Typography> */}
+                    </div>
+                  </Grid>
+                </Grid>
+              </div>
+            </Grid>
+            <Grid item>
+              <div className="stake-top-metrics" style={{ whiteSpace: "normal" }}>
+                <Grid container spacing={1} alignItems="center" justifyContent="center">
+                  {address && !isAllowanceDataLoading ? (
+                    !hasAllowance("mim") ? (
+                      <Box className="help-text">
+                        <Typography variant="body1" className="stake-note" color="textSecondary">
+                          <>
+                            First time deposit <b>USDC</b>?
+                            <br />
+                            Please approve HOM DAO to use your <b>USDC</b> for contribute.
+                          </>
+                        </Typography>
+                      </Box>
+                    ) : (
+                      <>
+                        <Box className="help-text">
+                          <Typography variant="body1" className="stake-note" color="textSecondary">
+                            <>
+                              If you are having challenges sending your USDC please email us at <b>contribute@homdao.io</b>
+                            </>
+                          </Typography>
+                        </Box>
+                        <Grid item xs={12} sm={1} md={1} lg={1} />
+                        <Grid item xs={12} sm={4} md={4} lg={4}>
+                          <FormControl className="ohm-input" variant="outlined" color="primary">
+                            <InputLabel htmlFor="amount-input"></InputLabel>
+                            <OutlinedInput
+                              id="amount-input"
+                              type="number"
+                              placeholder="Enter an amount"
+                              className="stake-input"
+                              value={quantity}
+                              width="70%"
+                              onChange={e => setQuantity(e.target.value)}
+                              labelWidth={0}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <Button variant="text" onClick={setMax} color="inherit">
+                                    Max
+                                  </Button>
+                                </InputAdornment>
+                              }
+                            />
+                          </FormControl>
+                        </Grid>
+                      </>
+                    )
+                  ) : (
+
                     <Button
                       className="stake-button"
                       variant="contained"
                       color="primary"
-                      disabled={isPendingTxn(pendingTransactions, "approve_deposit")}
-                      onClick={() => {
-                        onSeekApproval("mim");
-                      }}
+                      disabled={address}
+                      onClick={connect}
                     >
-                     
-                      {txnButtonText(pendingTransactions, "approve_deposit", "Approve")}
+                      {address ? "Loading..." : "Connect Wallet"}
                     </Button>
-                    </a>
-                  </Grid>
-                )}
-              </Grid>
-            </div>
+                  )}
+
+                  {isAllowanceDataLoading ? (
+                    <></>
+                  ) : address && hasAllowance("mim") ? (
+                    <>
+                      <Grid item xs={12} sm={2} md={2} lg={2} />
+                      <Grid item xs={12} sm={4} md={4} lg={4}>
+                        <Button
+                          className="stake-button"
+                          variant="contained"
+                          color="primary"
+                          disabled={false}
+                          onClick={() => {
+                            onChangeDeposit("presale");
+                          }}
+                        >
+                          {txnButtonText(pendingTransactions, "deposit", "Deposit USDC")}
+                        </Button>
+                      </Grid>
+                    </>
+                  ) : (
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
+
+                      <Button
+                        className="stake-button"
+                        variant="contained"
+                        color="primary"
+                        disabled={isPendingTxn(pendingTransactions, "approve_deposit")}
+                        onClick={() => {
+                          onSeekApproval("mim");
+                        }}
+                      >
+
+                        {txnButtonText(pendingTransactions, "approve_deposit", "Approve")}
+                      </Button>
+
+                    </Grid>
+                  )}
+                </Grid>
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      ) : (
+        <Paper className={`ohm-card`}>
+          <Grid item>
+            <div className="card-header">
+              <Typography variant="h2">Contribution</Typography>
+
+            </div>
+            <Grid container spacing={1} alignItems="center" justifyContent="center">
+              {isAllowanceDataLoading ? (
+                <>
+                  <Typography variant="h5">{"Please conect your wallet"}</Typography>
+                  <Grid container spacing={1} alignItems="center" justifyContent="center">
+                    <Button
+                      className="stake-button"
+                      variant="contained"
+                      color="primary"
+                      disabled={address}
+                      onClick={connect}
+                      style={{ 'width': '100%', 'margin-top': '30px' }}
+                    >
+                      {address ? "Loading..." : "Connect Wallet"}
+                    </Button>
+                  </Grid>
+                </>)
+                : (
+                  <>
+                    <Typography variant="h4">{"Your wallet address is not registered in the whitelist address."}</Typography>
+                    <Typography variant="h6">{"(If you have already sent an email, please contact us via chat.)"}</Typography>
+                    <Grid alignItems="center" justifyContent="center">
+                      <a href="https://docs.google.com/forms/d/13FuryNfCIyKQUAQe6N2skAaEi6ebrVsIWXhX7YQKj-Y/edit?usp=sharing" target="_blank" style={{ 'color': 'transparent' }}>
+                        <Button
+                          className="stake-button"
+                          variant="contained"
+                          color="primary"
+                          disabled={false}
+                          onClick={connect}
+                          style={{ 'margin': '40px', 'width': '10%' }}
+                        >
+                          {"Send the mail"}
+                        </Button>
+                      </a>
+                      <a href="https://discord.gg/NccSDMuDxq" target="_blank" style={{ 'color': 'transparent' }}>
+                        <Button
+                          className="stake-button"
+                          variant="contained"
+                          color="primary"
+                          disabled={false}
+                          onClick={connect}
+                          style={{ 'margin': '40px', 'width': '10%' }}
+                        >
+                          {"Chat with us!"}
+                        </Button>
+                      </a>
+                    </Grid>
+                  </>
+                )}
+
+            </Grid>
+          </Grid>
+        </Paper>
+      )}
+
+
     </div>
   );
 }

@@ -79,14 +79,15 @@
             "type": "function"
         },
         {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_amount",
-                    "type": "uint256"
-                }
-            ],
-            "name": "deposit",
+            "inputs": [],
+            "name": "claimUnlock",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "end",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -157,13 +158,6 @@
             "type": "event"
         },
         {
-            "inputs": [],
-            "name": "claimUnlock",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
             "anonymous": false,
             "inputs": [
                 {
@@ -175,6 +169,19 @@
             ],
             "name": "ClaimUnlocked",
             "type": "event"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "_amount",
+                    "type": "uint256"
+                }
+            ],
+            "name": "deposit",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
             "anonymous": false,
@@ -194,13 +201,6 @@
             ],
             "name": "Deposit",
             "type": "event"
-        },
-        {
-            "inputs": [],
-            "name": "end",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
         },
         {
             "anonymous": false,
@@ -319,6 +319,19 @@
             "type": "event"
         },
         {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "block",
+                    "type": "uint256"
+                }
+            ],
+            "name": "SaleStoped",
+            "type": "event"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "uint256",
@@ -406,6 +419,13 @@
         {
             "inputs": [],
             "name": "start",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "stop",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -521,6 +541,19 @@
                     "internalType": "bool",
                     "name": "",
                     "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "DAI",
+            "outputs": [
+                {
+                    "internalType": "contract IERC20",
+                    "name": "",
+                    "type": "address"
                 }
             ],
             "stateMutability": "view",
@@ -766,25 +799,12 @@
         },
         {
             "inputs": [],
-            "name": "totalRaisedUSDC",
+            "name": "totalRaisedDAI",
             "outputs": [
                 {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "USDC",
-            "outputs": [
-                {
-                    "internalType": "contract IERC20",
-                    "name": "",
-                    "type": "address"
                 }
             ],
             "stateMutability": "view",

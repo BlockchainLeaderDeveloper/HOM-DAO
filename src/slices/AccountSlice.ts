@@ -11,6 +11,8 @@ import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition ne
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
+
+
 export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
@@ -22,6 +24,7 @@ export const getBalances = createAsyncThunk(
    // let poolBalance = 0;
     //const poolTokenContract = new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS as string, ierc20Abi, provider);
     //poolBalance = await poolTokenContract.balanceOf(address);
+    console.log('address',address)
 
 
     return {
@@ -48,6 +51,10 @@ export const loadAccountDetails = createAsyncThunk(
     let daiBondAllowance = 0;
   //  let poolAllowance = 0;
     let multiSignBalance = 0;
+
+    
+    console.log('addresses',addresses)
+
     
     const USDC_ADDRESS = new ethers.Contract(addresses[networkID].USDC_ADDRESS as string, ierc20Abi, provider);
     const usdcBalance = await USDC_ADDRESS.balanceOf(address);
@@ -59,7 +66,7 @@ export const loadAccountDetails = createAsyncThunk(
     console.log('debug multiSignBalance account', usdcBalance);
     const pHOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, pBHD, provider);
     pHOMBalance = await pHOMContract.balanceOf(address);
-   
+   console.log('pHOMBalance1',pHOMBalance);
 
 
     const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, provider);
@@ -87,6 +94,7 @@ export const loadAccountDetails = createAsyncThunk(
     const presaleContract = new ethers.Contract(addresses[networkID].PRESALE_ADDRESS as string, presaleAbi, provider);
     const HOMPrice = await presaleContract.getPriceForThisAddress(address);
     const remainingAmount = await presaleContract.getUserRemainingAllocation(address);
+    const whitelistAddress =  await presaleContract.firstPhasewhitelisted(address);
     const isStarted = await presaleContract.started();
     const isEnded = await presaleContract.ended();
     const minCap = await presaleContract.minCap();
@@ -97,7 +105,8 @@ export const loadAccountDetails = createAsyncThunk(
     } 
     if(isEnded)
       presaleStatus = "Presales was ended";
-    console.log('usdcBalance',usdcBalance)
+
+      console.log('whitelist',whitelistAddress);
     
 
     return {
@@ -112,12 +121,13 @@ export const loadAccountDetails = createAsyncThunk(
 
       presale: {
         presaleAllowance: +presaleAllowance,
-        tokenPrice: ethers.utils.formatEther(HOMPrice),
-        remainingAmount: ethers.utils.formatEther(remainingAmount),
+        tokenPrice: ethers.utils.formatUnits(HOMPrice,6),
+        remainingAmount: ethers.utils.formatUnits(remainingAmount,6),
         presaleStatus: presaleStatus,
-        minCap: ethers.utils.formatEther(minCap),
-        cap: ethers.utils.formatEther(cap),
+        minCap: ethers.utils.formatUnits(minCap,6),
+        cap: ethers.utils.formatUnits(cap,6),
         multiSignBalance: multiSignBalance,
+        whitelistAddress: whitelistAddress ,
       },
       claim: {
         claimAllowance: +claimAllowance,
@@ -135,6 +145,8 @@ export const loadAccountDetails = createAsyncThunk(
     };
   },
 );
+
+
 
 export interface IUserBondDetails {
   allowance: number;

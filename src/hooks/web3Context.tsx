@@ -85,7 +85,9 @@ export const useWeb3Context = () => {
 export const useAddress = () => {
   const { address } = useWeb3Context();
   return address;
+
 };
+
 
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);

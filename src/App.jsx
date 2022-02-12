@@ -97,6 +97,7 @@ function App() {
   const isAppLoading = useSelector(state => state.app.loading);
   const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
   let { bonds } = useBonds();
+  console.log("1111",bonds)
   // bonds = bonds.concat(bhd_dai);
   async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -106,6 +107,7 @@ function App() {
     // we shouldn't be initializing to chainID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setChainID equal to 4 before testing.
     let loadProvider = provider;
+  
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
@@ -130,7 +132,7 @@ function App() {
   const loadAccount = useCallback(
     loadProvider => {
       dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
-      console.log("1111",bonds)
+    
       bonds.map(bond => {
         dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
@@ -220,6 +222,7 @@ function App() {
       const updateAccountDetailInterval = setInterval(() => {
         try {
           dispatch(loadAccountDetails({ networkID: chainID, address, provider: loadProvider }));
+          
         } catch (error) {
           console.log(error);
         }
@@ -232,6 +235,7 @@ function App() {
       };
     }
   }, [walletChecked]);
+  console.log('loadAccountDetails',loadAccountDetails)
 
   return (
     <ThemeProvider theme={themeMode}>
