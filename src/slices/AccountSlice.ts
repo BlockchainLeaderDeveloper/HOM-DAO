@@ -181,7 +181,7 @@ export const calculateUserBondDetails = createAsyncThunk(
     let multiSignBalance = await USDC_ADDRESS.balanceOf(addresses[networkID].MULTISIGN_ADDRESS);
    
     console.log('debug->dashboard3')
-    console.log('bond1',bond)
+    console.log('multiSignBalance',multiSignBalance)
     let interestDue, pendingPayout, bondMaturationTime;
 
     const bondDetails = await bondContract.bondInfo(address);
