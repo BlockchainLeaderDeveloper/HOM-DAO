@@ -95,7 +95,7 @@ function NavContent() {
                 </Typography>
               </Link>
 
-              <Link
+              {/* <Link
                 component={NavLink}
                 id="dash-nav"
                 to="/dashboard"   
@@ -108,7 +108,7 @@ function NavContent() {
                   <SvgIcon color="primary" component={DashboardIcon} />
                   Dashboard
                 </Typography>
-              </Link>
+              </Link> */}
 
               <Link
                 component={NavLink}
@@ -125,7 +125,7 @@ function NavContent() {
                 </Typography>
               </Link>
 
-              <Link
+              {/* <Link
                 component={NavLink}
                 id="bond-nav"
                 to="/bonds"
@@ -138,14 +138,11 @@ function NavContent() {
                   <SvgIcon color="primary" component={BondIcon} />
                   Bond
                 </Typography>
-              </Link>
+              </Link> */}
               <Link
-                component={NavLink}
+                href={`https://homdao.lpages.co/create-hom-nft/`} target="_blank"
+
                 id="mint-nav"
-                to="/"
-                isActive={(match, location) => {
-                  return checkPage(match, location, "mint");
-                }}
                 className={`button-dapp-menu bg-color-sidebar-btn ${isActive ? "active" : ""}`}
               >
                 <Typography variant="h6">

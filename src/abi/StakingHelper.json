@@ -9,7 +9,7 @@
         },
         {
           "internalType": "address",
-          "name": "_HOM",
+          "name": "_PHOM",
           "type": "address"
         }
       ],
@@ -18,7 +18,7 @@
     },
     {
       "inputs": [],
-      "name": "HOM",
+      "name": "PHOM",
       "outputs": [
         {
           "internalType": "address",
@@ -38,7 +38,7 @@
         },
         {
           "internalType": "address",
-          "name": "recipient",
+          "name": "_recipient",
           "type": "address"
         }
       ],

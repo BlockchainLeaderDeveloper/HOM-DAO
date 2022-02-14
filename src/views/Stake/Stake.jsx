@@ -298,15 +298,15 @@ function Stake() {
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
                                   <>
-                                    First time staking <b>HOM</b>?
+                                    First time staking <b>pHOM</b>?
                                     <br />
-                                    Please approve HOM DAO to use your <b>HOM</b> for staking.
+                                    Please approve HOM DAO to use your <b>pHOM</b> for staking.
                                   </>
                                 ) : (
                                   <>
-                                    First time unstaking <b>sHOM</b>?
+                                    First time unstaking <b>spHOM</b>?
                                     <br />
-                                    Please approve HOM DAO to use your <b>sHOM</b> for unstaking.
+                                    Please approve HOM DAO to use your <b>spHOM</b> for unstaking.
                                   </>
                                 )}
                               </Typography>

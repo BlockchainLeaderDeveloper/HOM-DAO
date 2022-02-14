@@ -8,6 +8,7 @@ import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as sHOMTokenImg } from "../../assets/tokens/token_sHOM.svg";
 import { ReactComponent as HOMTokenImg } from "../../assets/tokens/token_HOM.svg";
 import { ReactComponent as pHOMTokenImg } from "../../assets/tokens/token_pHOM.svg";
+import { ReactComponent as spHOMTokenImg } from "../../assets/tokens/token_spHOM.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 
 import "./ohmmenu.scss";
@@ -17,6 +18,7 @@ import { useWeb3Context } from "../../hooks/web3Context";
 import HOMImg from "src/assets/tokens/HOM.svg";
 import SHOMImg from "src/assets/tokens/sHOM.svg";
 import PHOMImg from "src/assets/tokens/pHOM.svg";
+import SPHOMImg from "src/assets/tokens/spHOM.svg";
 import token33tImg from "src/assets/tokens/token_33T.svg";
 
 const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
@@ -35,7 +37,10 @@ const addTokenToWallet = (tokenSymbol, tokenAddress) => async () => {
         tokenPath = token33tImg;
         break;
       case "pHOM":
-        tokenPath= PHOMImg;
+        tokenPath = PHOMImg;
+        break;
+      case "spHOM" :
+        tokenPath = SPHOMImg;
         break;
       default:
         tokenPath = SHOMImg;
@@ -71,6 +76,7 @@ function HOMMenu() {
   const SHOM_ADDRESS = addresses[networkID].SHOM_ADDRESS;
   const HOM_ADDRESS = addresses[networkID].HOM_ADDRESS;
   const PHOM_ADDRESS = addresses[networkID].PHOM_ADDRESS;
+  const SPHOM_ADDRESS = addresses[networkID].SPHOM_ADDRESS;
   // const USDC_ADDRESS = addresses[networkID].USDC_ADDRESS;
 
   const handleClick = event => {
@@ -98,7 +104,7 @@ function HOMMenu() {
             <Fade {...TransitionProps} timeout={100}>
               <Paper className="ohm-menu" elevation={1}>
                 <Box component="div" className="buy-tokens">
-                  <Link
+                  {/* <Link
                     href={`https://quickswap.exchange/#/swap?inputCurrency=${daiAddress}&outputCurrency=${HOM_ADDRESS}`}
                     target="_blank"
                     rel="noreferrer"
@@ -108,7 +114,7 @@ function HOMMenu() {
                         Buy on QuickSwap <SvgIcon component={ArrowUpIcon} htmlColor="#A3A3A3" />
                       </Typography>
                     </Button>
-                  </Link>
+                  </Link> */}
 
                   {/* <Link
                     href={`https://swap.spiritswap.finance/#/add/${USDC_ADDRESS}/${HOM_ADDRESS}`}
@@ -147,29 +153,37 @@ function HOMMenu() {
                     <Divider color="secondary" />
                     <p>ADD TOKEN TO WALLET</p>
                     <Box display="flex" flexDirection="row" justifyContent="space-between">
-                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("HOM", HOM_ADDRESS)}>
+                      {/* <Button variant="contained" color="secondary" onClick={addTokenToWallet("HOM", HOM_ADDRESS)}>
                         <SvgIcon
                           component={HOMTokenImg}
-                          viewBox="0 0 32 32"
-                          style={{ height: "36px", width: "36px" }}
+                          viewBox="0 0 60 60"
+                          style={{ height: "60px", width: "60px" }}
                         />
                         <Typography variant="body1">HOM</Typography>
                       </Button>
                       <Button variant="contained" color="secondary" onClick={addTokenToWallet("sHOM", SHOM_ADDRESS)}>
                         <SvgIcon
                           component={sHOMTokenImg}
-                          viewBox="0 0 32 32"
-                          style={{ height: "36px", width: "36px" }}
+                          viewBox="0 0 60 60"
+                          style={{ height: "60px", width: "60px" }}
                         />
                         <Typography variant="body1">sHOM</Typography>
-                      </Button>
+                      </Button> */}
                       <Button variant="contained" color="secondary" onClick={addTokenToWallet("pHOM", PHOM_ADDRESS)}>
                         <SvgIcon
                           component={pHOMTokenImg}
-                          viewBox="0 0 32 32"
-                          style={{ height: "36px", width: "36px" }}
+                          viewBox="0 0 50 50"
+                          style={{ height: "50px", width: "50px" }}
                         />
                         <Typography variant="body1">pHOM</Typography>
+                      </Button>
+                      <Button variant="contained" color="secondary" onClick={addTokenToWallet("spHOM", SPHOM_ADDRESS)}>
+                        <SvgIcon
+                          component={spHOMTokenImg}
+                          viewBox="0 0 50 50"
+                          style={{ height: "50px", width: "50px" }}
+                        />
+                        <Typography variant="body1">spHOM</Typography>
                       </Button>
                       {/* <Button variant="contained" color="secondary" onClick={addTokenToWallet("33T", PT_TOKEN_ADDRESS)}>
                         <SvgIcon

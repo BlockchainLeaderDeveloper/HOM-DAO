@@ -66,7 +66,7 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sbhdContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS, sBHD, signer);
+    const sbhdContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS, sBHD, signer);
 
     let approveTx;
     let depositAllowance = await sbhdContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);

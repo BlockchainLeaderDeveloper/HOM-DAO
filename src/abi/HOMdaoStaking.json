@@ -4,12 +4,12 @@
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "_Hom",
+                    "name": "_PHOM",
                     "type": "address"
                 },
                 {
                     "internalType": "address",
-                    "name": "_sHom",
+                    "name": "_SPHOM",
                     "type": "address"
                 },
                 {
@@ -68,19 +68,6 @@
             ],
             "name": "OwnershipPushed",
             "type": "event"
-        },
-        {
-            "inputs": [],
-            "name": "HOM",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
         },
         {
             "inputs": [
@@ -210,6 +197,19 @@
         },
         {
             "inputs": [],
+            "name": "pHOM",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
             "name": "pullManagement",
             "outputs": [],
             "stateMutability": "nonpayable",
@@ -256,22 +256,9 @@
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "sHOM",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
             "inputs": [
                 {
-                    "internalType": "enum HOMStaking.CONTRACTS",
+                    "internalType": "enum PHOMStaking.CONTRACTS",
                     "name": "_contract",
                     "type": "uint8"
                 },
@@ -297,6 +284,19 @@
             "name": "setWarmup",
             "outputs": [],
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "spHOM",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
             "type": "function"
         },
         {

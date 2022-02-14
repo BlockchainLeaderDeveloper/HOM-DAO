@@ -46,7 +46,7 @@ export const changeApproval = createAsyncThunk(
     console.log('debug->token',token);
     const signer = provider.getSigner();
     const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, signer);
-    const sHOMContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS as string, ierc20Abi, signer);
+    const sHOMContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS as string, ierc20Abi, signer);
     let approveTx;
     let stakeAllowance = await HOMContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     let unstakeAllowance = await sHOMContract.allowance(address, addresses[networkID].STAKING_ADDRESS);

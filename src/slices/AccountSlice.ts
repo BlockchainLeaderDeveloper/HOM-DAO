@@ -17,9 +17,9 @@ export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     console.log('debug->dashboard1')
-    const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, provider);
+    const HOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, ierc20Abi, provider);
     const HOMBalance = await HOMContract.balanceOf(address);
-    const sHOMContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS as string, sBHD, provider);
+    const sHOMContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS as string, sBHD, provider);
     const sHOMBalance = await sHOMContract.balanceOf(address);
    // let poolBalance = 0;
     //const poolTokenContract = new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS as string, ierc20Abi, provider);
@@ -69,12 +69,12 @@ export const loadAccountDetails = createAsyncThunk(
    console.log('pHOMBalance1',pHOMBalance);
 
 
-    const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, provider);
+    const HOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, ierc20Abi, provider);
 
     HOMBalance = await HOMContract.balanceOf(address);
     stakeAllowance = await HOMContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
 
-    const sHOMContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS as string, sBHD, provider);
+    const sHOMContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS as string, sBHD, provider);
 
     sHOMBalance = await sHOMContract.balanceOf(address);
     unstakeAllowance = await sHOMContract.allowance(address, addresses[networkID].STAKING_ADDRESS);

@@ -211,16 +211,8 @@ function Presale() {
                       </Box>
                     ) : (
                       <>
-                        <Box className="help-text">
-                          <Typography variant="body1" className="stake-note" color="textSecondary">
-                            <>
-                              If you are having challenges sending your USDC please email us at <b>contribute@homdao.io</b>
-                            </>
-                          </Typography>
-                        </Box>
-                        <Grid item xs={12} sm={1} md={1} lg={1} />
-                        <Grid item xs={12} sm={4} md={4} lg={4}>
-                          <FormControl className="ohm-input" variant="outlined" color="primary">
+                        <Grid item xs={12} sm={4} md={4} lg={8} style={{ 'border': 'solid 1px', 'background-color': 'rgb(70 83 122)' ,'border-radius':'5px'}}>
+                          <FormControl className="ohm-input" variant="outlined" color="black" >
                             <InputLabel htmlFor="amount-input"></InputLabel>
                             <OutlinedInput
                               id="amount-input"
@@ -228,13 +220,13 @@ function Presale() {
                               placeholder="Enter an amount"
                               className="stake-input"
                               value={quantity}
-                              width="70%"
+                              width="100%"
                               onChange={e => setQuantity(e.target.value)}
                               labelWidth={0}
                               endAdornment={
-                                <InputAdornment position="end">
-                                  <Button variant="text" onClick={setMax} color="inherit">
-                                    Max
+                                <InputAdornment position="end" >
+                                  <Button variant="text" onClick={setMax} color="#6b03ff">
+                                    CONTRIBUTION AMOUNT
                                   </Button>
                                 </InputAdornment>
                               }
@@ -260,8 +252,8 @@ function Presale() {
                     <></>
                   ) : address && hasAllowance("mim") ? (
                     <>
-                      <Grid item xs={12} sm={2} md={2} lg={2} />
-                      <Grid item xs={12} sm={4} md={4} lg={4}>
+                      <Grid item xs={12} sm={2} md={2} lg={1} />
+                      <Grid item xs={12} sm={4} md={4} lg={3}>
                         <Button
                           className="stake-button"
                           variant="contained"
@@ -293,6 +285,13 @@ function Presale() {
 
                     </Grid>
                   )}
+                  <Box className="help-text">
+                    <Typography variant="body1" className="stake-note" color="textSecondary">
+                      <p>
+                        If you are having challenges sending your USDC please email us at <b>contribute@homdao.io</b>
+                      </p>
+                    </Typography>
+                  </Box>
                 </Grid>
               </div>
             </Grid>
@@ -336,7 +335,7 @@ function Presale() {
                           onClick={connect}
                           style={{ 'margin': '40px', 'width': '10%' }}
                         >
-                          {"Send the mail"}
+                          {"Register for the Whitelist"}
                         </Button>
                       </a>
                       <a href="https://discord.gg/NccSDMuDxq" target="_blank" style={{ 'color': 'transparent' }}>
@@ -360,7 +359,35 @@ function Presale() {
         </Paper>
       )}
 
+      <Grid item>
+        <Grid container spacing={1} alignItems="center" justifyContent="left" style={{ 'margin-left': '2%', 'margin-top': '40px','width':'96%'}}>
 
+          <Typography style={{'margin-bottom':'10px'}} variant="h5">{"1 - Before you start: Make sure you have a MetaMask wallet running on the MATIC Network with enough USDC to fund your contribution. The minimum contribution is $1,000 USDC."}</Typography>
+          <Typography style={{'margin-bottom':'10px'}} variant="h5">{"2 - If you have not already, please register on the Whitelist or you will be blocked from contributing."}</Typography>
+          <Grid alignItems="center" justifyContent="center">
+            <Typography style={{'margin-bottom':'10px'}} variant="h5">{"3 - Once this information is completed, you can make your contribution. Click on Connect Wallet link to link your MetaMask Wallet."}</Typography>
+            <Typography style={{'margin-bottom':'10px'}} variant="h6">{"A pop-up window with form will appear."}</Typography>
+            <Typography style={{'margin-bottom':'10px'}} variant="h6">{"A - Select your MetaMask wallet"}</Typography>
+            <Typography style={{'margin-bottom':'10px'}} variant="h6">{"B - Congratulations! Your MastMask wallet is now connected to the HOM Protocol."}</Typography>
+          </Grid>
+          <Typography style={{'margin-bottom':'10px'}} variant="h5">{"4 - Click on the Deposit USDC button and enter please enter the amount you want to contribute in the field to the left (minimum is $1,000 and maximum is $300,000)"}</Typography>
+          <Grid alignItems="center" justifyContent="center">
+            <Typography style={{'margin-bottom':'10px'}} variant="h5">{"5 - You will see a note in MetaMask to approve the transaction."}</Typography>
+            <Typography style={{'margin-bottom':'10px'}} variant="h6">{"A - You will see your confirmation in MetaMask Pop-up."}</Typography>
+            <Typography style={{'margin-bottom':'10px'}} variant="h6">{"B - Press CONFIRM"}</Typography>
+          </Grid>
+          <Grid alignItems="center" justifyContent="center">
+            <Typography style={{'margin-bottom':'10px'}} variant="h5">{"6 - Click on the HOM button at the top right corner of the CONTRIBUTE page and then select the pHOM token."}</Typography>
+            <Typography style={{'margin-bottom':'10px'}} variant="h6">{"A - Please select the Black pHOM token."}</Typography>
+            <Typography style={{'margin-bottom':'10px'}} variant="h6">{"B - In your MetaMask wallet Click ADD TOKEN."}</Typography>
+          </Grid>
+          <Typography style={{'margin-bottom':'10px'}} variant="h5">{"7 - Now you should see the pHOM tokens in your MetaMask Wallet under ASSETS."}</Typography>
+          <Grid alignItems="center" justifyContent="center">
+            <Typography style={{'margin-bottom':'10px'}} variant="h5">{"Congratulations!"}</Typography>
+            <Typography style={{'margin-bottom':'10px'}} variant="h5">If you have any questions, please reach out on the Telegram chat line or email <b>help@homdao.io.</b> We are a volunteer community and will try and respond as soon as we can.</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 }

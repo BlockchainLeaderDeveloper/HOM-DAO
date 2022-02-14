@@ -43,7 +43,7 @@ export const loadAppDetails = createAsyncThunk(
       return;
     }
     
-    const sHOMMainContract = new ethers.Contract(addresses[networkID].SHOM_ADDRESS as string, sBHD, provider);
+    const sHOMMainContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS as string, sBHD, provider);
     const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, provider);
     const HOMBalance = await HOMContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
 
