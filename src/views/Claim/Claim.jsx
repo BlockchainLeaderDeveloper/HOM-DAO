@@ -75,14 +75,16 @@ function Claim() {
             </div>
           </Grid>
         </Grid>
-        <Grid container direction="column" spacing={2}>
+        <Grid container direction="column" spacing={0}>
           <Grid item>
             <div className="card-header">
-              <Typography variant="h6">Please deposit your pHOM token to claim the HOM token</Typography>
+              <Typography variant="h6" style={{"font-size":"14px"}}>{"Once HOM DAO has had its public launch, this is where you will be able to exchange your pHOM tokens for HOM tokens."}</Typography>
+              <Typography variant="h6" style={{"font-size":"14px"}}>{"This featre is coming soon."}</Typography>
+            
             </div>
           </Grid>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <div className="stake-top-metrics" style={{ whiteSpace: "normal" }}>
             <Grid container spacing={1} alignItems="center" justifyContent="center">
               {address && !isAllowanceDataLoading ? (
@@ -158,7 +160,7 @@ function Claim() {
               )}
             </Grid>
           </div>
-        </Grid>
+        </Grid> */}
       </Paper>
     </div>
   );

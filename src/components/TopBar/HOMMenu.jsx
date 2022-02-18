@@ -73,7 +73,7 @@ function HOMMenu() {
 
   const networkID = chainID;
 
-  const SHOM_ADDRESS = addresses[networkID].SHOM_ADDRESS;
+ // const SHOM_ADDRESS = addresses[networkID].SHOM_ADDRESS;
   const HOM_ADDRESS = addresses[networkID].HOM_ADDRESS;
   const PHOM_ADDRESS = addresses[networkID].PHOM_ADDRESS;
   const SPHOM_ADDRESS = addresses[networkID].SPHOM_ADDRESS;

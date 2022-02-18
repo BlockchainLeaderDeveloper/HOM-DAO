@@ -60,16 +60,16 @@ function ConnectMenu({ theme }) {
       className="wallet-menu"
       id="wallet-menu"
     >
-      <a href='https://hom-dao.gitbook.io/hom-dao/faqs/how-to-make-a-contribution-to-hom-dao-and-get-phom' style={{'color':'transparent'}}>
-      <Button
-        size="large"
-        variant="contained"
-        color="secondary"
-        style={{ marginBottom: "0px",width:'10%' }}
-        fullWidth
-      >
-        <Typography>HELP</Typography>
-      </Button>
+      <a href='https://hom-dao.gitbook.io/hom-dao/faqs/how-to-make-a-contribution-to-hom-dao-and-get-phom' target="_blank" style={{ 'color': 'transparent' }}>
+        <Button
+          size="large"
+          variant="contained"
+          color="secondary"
+          style={{ marginBottom: "0px", width: '10%' }}
+          fullWidth
+        >
+          <Typography>HELP</Typography>
+        </Button>
       </a>
 
       <Button

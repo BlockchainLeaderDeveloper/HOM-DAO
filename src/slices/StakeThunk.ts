@@ -43,9 +43,8 @@ export const changeApproval = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-    console.log('debug->token',token);
     const signer = provider.getSigner();
-    const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, signer);
+    const HOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, ierc20Abi, signer);
     const sHOMContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS as string, ierc20Abi, signer);
     let approveTx;
     let stakeAllowance = await HOMContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
@@ -172,5 +171,51 @@ export const changeStake = createAsyncThunk(
       }
     }
     dispatch(getBalances({ address, networkID, provider }));
+  },
+);
+
+export const claimspHOM = createAsyncThunk(
+  "stake/claimspHOM",
+  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
+    if (!provider) {
+      dispatch(error("Please connect your wallet!"));
+      return;
+    }
+    const signer = provider.getSigner();
+    const staking = new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, HOMdaoStaking, signer);
+    const HOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, ierc20Abi, signer);
+    const sHOMContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS as string, ierc20Abi, signer);
+    let claimTx;
+    let stakeAllowance = await HOMContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    let unstakeAllowance = await sHOMContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+
+
+    try {
+      claimTx = await staking.claim(address);
+      const text = "Claim";
+      const pendingTxnType = token === "HOM" ? "claim" : "claim";
+      dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));
+      await claimTx.wait();
+    } catch (e: unknown) {
+      dispatch(error((e as IJsonRPCError).message));
+      return;
+    } finally {
+      if (claimTx) {
+        dispatch(clearPendingTxn(claimTx.hash));
+      }
+    }
+
+    // go get fresh allowances
+    stakeAllowance = await HOMContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+    unstakeAllowance = await sHOMContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+
+    return dispatch(
+      fetchAccountSuccess({
+        staking: {
+          bhdStake: +stakeAllowance,
+          bhdUnstake: +unstakeAllowance,
+        },
+      }),
+    );
   },
 );

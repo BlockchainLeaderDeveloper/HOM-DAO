@@ -322,6 +322,7 @@
 .app.dark .stake-top-metrics h4 {
 	font-weight: 500;
 	color: #d7c498;
+	font-family: auto;
 }
 
 .app.dark #treasury-dashboard-view .hero-metrics .ohm-card h5 {
@@ -399,6 +400,7 @@
 	font-size: 18px;
 	font-weight: 400;
 	color: #fff;
+	font-family:auto;
 }
 
 .app.dark .MuiSkeleton-text {
@@ -524,4 +526,10 @@
 .app.dark #choose-bond-view .ohm-card .bond-hero h4 {
 	color: #d7c498;
 	font-weight: 400 !important;
+}
+
+
+.tablet .app>.jss2>#dashboard-view>.MuiGrid-root.MuiGrid-item>.MuiGrid-root>.MuiTypography-root
+{
+	margin-bottom:'20px';
 }

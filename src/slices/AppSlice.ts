@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { abi as HOMdaoStaking } from "../abi/HOMdaoStaking.json";
+import { abi as Presale } from "../abi/Presale.json";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sBHD } from "../abi/sBHD.json";
 import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
@@ -44,10 +45,15 @@ export const loadAppDetails = createAsyncThunk(
     }
     
     const sHOMMainContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS as string, sBHD, provider);
-    const HOMContract = new ethers.Contract(addresses[networkID].HOM_ADDRESS as string, ierc20Abi, provider);
+    const HOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, ierc20Abi, provider);
     const HOMBalance = await HOMContract.balanceOf(addresses[networkID].STAKING_ADDRESS);
+    
+    const PresaleContract = new ethers.Contract(addresses[networkID].PRESALE_ADDRESS as string, Presale, provider);
 
-    const stakingTVL = (HOMBalance * marketPrice) / 1000000000;
+    const PresalePrice = await PresaleContract.firstPhasePrice();
+ 
+//for presale
+    const stakingTVL = (HOMBalance * (PresalePrice/1000000) ) / 1000000000;  //marketPrice
     const circ = await sHOMMainContract.circulatingSupply();
     const circSupply = circ / 1000000000;
     const total = await HOMContract.totalSupply();

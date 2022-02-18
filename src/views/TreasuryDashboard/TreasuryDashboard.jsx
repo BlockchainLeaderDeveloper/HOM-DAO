@@ -44,6 +44,11 @@ function TreasuryDashboard() {
     return state.app.currentIndex;
   });
 
+
+  const tokenPrice = useSelector(state => {
+    return state.account.presale && state.account.presale.tokenPrice;
+  });
+
   const runwayValue = useSelector(state => {
     return state.app.runway;
   });
@@ -105,26 +110,44 @@ function TreasuryDashboard() {
         <Box className={`hero-metrics`}>
           <Paper className="ohm-card">
             <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
+              <Grid item style={{ 'width': '100%', 'text-align': 'justify' }}>
+                <div className="card-header">
+                  <Typography variant="h2">Dashboard(coming soon)</Typography>
+
+                </div>
+              </Grid>
               <Box className="metric market">
                 <Typography variant="h6" color="textSecondary">
                   Market Cap
                 </Typography>
-                <Typography variant="h5">
+                {/* <Typography variant="h5">
                   {marketCap && formatCurrency(marketCap, 2)}
                   {!marketCap && <Skeleton type="text" />}
+                </Typography> */}
+                <Typography variant="h5">
+                  <Skeleton type="text" />
                 </Typography>
               </Box>
 
               <Box className="metric price">
                 <Typography variant="h6" color="textSecondary">
-                  HOM Price
+                  pHOM Price
                 </Typography>
-                <Typography variant="h5">
-                  {/* appleseed-fix */}
+                {tokenPrice ? (
+                  <Typography variant="h4" color="textSecondary">
+                    ${tokenPrice === 0 ? "0" : tokenPrice}
+                  </Typography>
+                ) : (
+                  <Typography variant="h5">
+                    <Skeleton type="text" />
+                  </Typography>
+                )
+                }
+                {/* <Typography variant="h5">
                   {marketPrice ? formatCurrency(marketPrice, 2) : <Skeleton type="text" />}
-                </Typography>
+                </Typography> */}
               </Box>
-{/* 
+              {/* 
               <Box className="metric wsoprice">
                 <Typography variant="h6" color="textSecondary">
                   wsHOM Price
@@ -145,35 +168,45 @@ function TreasuryDashboard() {
                   Circulating Supply (total)
                 </Typography>
                 <Typography variant="h5">
+                  <Skeleton type="text" />
+                </Typography>
+                {/* <Typography variant="h5">
                   {circSupply && totalSupply ? (
                     formatCurrency(circSupply, 0) + " / " + formatCurrency(totalSupply, 0)
                   ) : (
                     <Skeleton type="text" />
                   )}
-                </Typography>
+                </Typography> */}
               </Box>
 
-              <Box className="metric bpo" style={{"width":"40%", "margin-left":"9%"}}>
+              <Box className="metric bpo" style={{ "width": "40%", "margin-left": "9%" }}>
                 <Typography variant="h6" color="textSecondary">
                   Backing per HOM
                 </Typography>
                 <Typography variant="h5">
-                  {backingPerHOM ? formatCurrency(backingPerHOM, 2) : <Skeleton type="text" />}
+                  <Skeleton type="text" />
                 </Typography>
+                {/* <Typography variant="h5">
+                  {backingPerHOM ? formatCurrency(backingPerHOM, 2) : <Skeleton type="text" />}
+                </Typography> */}
               </Box>
 
-              <Box className="metric index" style={{"width":"40%", "margin-right":"9%"}}>
+              <Box className="metric index" style={{ "width": "40%", "margin-right": "9%" }}>
                 <Typography variant="h6" color="textSecondary">
                   Current Index
-                  <InfoTooltip
+
+                  {/* <InfoTooltip
                     message={
                       "The current index tracks the amount of sHOM accumulated since the beginning of staking. Basically, how much sHOM one would have if they staked and held a single HOM from day 1."
                     }
-                  />
+                  /> */}
                 </Typography>
                 <Typography variant="h5">
-                  {currentIndex ? trim(currentIndex, 2) + " sHOM" : <Skeleton type="text" />}
+                  <Skeleton type="text" />
                 </Typography>
+                {/* <Typography variant="h5">
+                  {currentIndex ? trim(currentIndex, 2) + " sHOM" : <Skeleton type="text" />}
+                </Typography> */}
               </Box>
               {/* <Box className="metric">
                 <Typography variant="h6" color="textSecondary">

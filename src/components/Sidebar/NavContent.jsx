@@ -140,14 +140,14 @@ function NavContent() {
                 </Typography>
               </Link> */}
               <Link
-                href={`https://homdao.lpages.co/create-hom-nft/`} target="_blank"
+                href={`https://homdao.io/create-hom-nft/`} target="_blank"
 
                 id="mint-nav"
                 className={`button-dapp-menu bg-color-sidebar-btn ${isActive ? "active" : ""}`}
               >
                 <Typography variant="h6">
                   <SvgIcon color="primary" component={MindIcon} />
-                  MINT HOM-NFT (comming soon)
+                  MINT HOM-NFT (coming soon)
                 </Typography>
               </Link>
             </div>

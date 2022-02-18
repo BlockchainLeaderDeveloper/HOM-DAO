@@ -19,7 +19,7 @@ import NewReleases from "@material-ui/icons/NewReleases";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getBhdTokenImage, getTokenImage, trim } from "../../helpers";
-import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import { changeApproval, changeStake, claimspHOM } from "../../slices/StakeThunk";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./stake.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -36,10 +36,12 @@ function a11yProps(index) {
   };
 }
 
+
 const sBhdImg = getTokenImage("sHOM");
 
 function Stake() {
   const dispatch = useDispatch();
+
   const { provider, address, connected, connect, chainID } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);
@@ -59,7 +61,6 @@ function Stake() {
     return state.app.old_fiveDayRate;
   });
   const HOMBalance = useSelector(state => {
-    console.log('state',state)
     return state.account.balances && state.account.balances.HOM;
   });
 
@@ -81,6 +82,18 @@ function Stake() {
   // const oldunstakeAllowance = useSelector(state => {
   //   return state.account.staking && state.account.staking.oldhecUnstake;
   // });
+
+  const expiry = useSelector(state => {
+    return state.account.staking && state.account.staking.expiry;
+  })
+
+  const epochnumber = useSelector(state => {
+    return state.account.staking && state.account.staking.epochnumber;
+  })
+  const depositamount = useSelector(state => {
+    return state.account.staking && state.account.staking.depositamount;
+  })
+  console.log('warmupInfo', expiry, epochnumber, depositamount);
   const stakingRebase = useSelector(state => {
     return state.app.stakingRebase;
   });
@@ -98,9 +111,11 @@ function Stake() {
     return state.pendingTransactions;
   });
 
+  const maxamount = (100-(depositamount)/1000000000-sHOMBalance).toString();
+
   const setMax = () => {
     if (view === 0) {
-      setQuantity(HOMBalance);
+      setQuantity(maxamount);
     } else {
       setQuantity(sHOMBalance);
     }
@@ -111,6 +126,10 @@ function Stake() {
 
   const onSeekApproval = async token => {
     await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
+  };
+
+  const onClaim = async token => {
+    await dispatch(claimspHOM({ address, token, provider, networkID: chainID }));
   };
 
   const onChangeStake = async (action, isOld) => {
@@ -128,6 +147,13 @@ function Stake() {
     if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(HOMBalance, "gwei"))) {
       return dispatch(error("You cannot stake more than your HOM balance."));
     }
+
+    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(maxamount, "gwei"))) {
+      return dispatch(error("You cannot stake more than 100 pHOM"));
+    }
+    // if (action === "stake" && ) {
+    //   return dispatch(error("You cannot stake more than 100 pHOM"));
+    // }
 
     if (action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(unstakedVal, "gwei"))) {
       return dispatch(error("You cannot unstake more than your sHOM balance."));
@@ -199,7 +225,7 @@ function Stake() {
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <div className="card-header">
-                  <Typography variant="h5">Single Stake (🗝, 🗝)</Typography>
+                  <Typography variant="h5">Staking Dashboard</Typography>
                   <RebaseTimer />
 
                   {address && oldsHOMBalance > 0.01 && (
@@ -211,7 +237,7 @@ function Stake() {
                       target="_blank"
                     >
                       <NewReleases viewBox="0 0 24 24" />
-                      <Typography>Migrate sHOM!</Typography>
+                      <Typography>Migrate spHOM!</Typography>
                     </Link>
                   )}
                 </div>
@@ -226,8 +252,8 @@ function Stake() {
                           APY
                         </Typography>
                         <Typography variant="h4">
-                        
-                          {stakingAPY ? (new Intl.NumberFormat().format(Math.floor(trimmedStakingAPY))+'%') : <Skeleton width="150px" />}
+
+                          {stakingAPY ? (new Intl.NumberFormat().format(Math.floor(trimmedStakingAPY)) + '%') : <Skeleton width="150px" />}
                         </Typography>
                       </div>
                     </Grid>
@@ -258,7 +284,7 @@ function Stake() {
                           Current Index
                         </Typography>
                         <Typography variant="h4">
-                          {currentIndex ? <>{trim(currentIndex, 1)} HOM</> : <Skeleton width="150px" />}
+                          {currentIndex ? <>{trim(currentIndex, 1)} pHOM</> : <Skeleton width="150px" />}
                         </Typography>
                       </div>
                     </Grid>
@@ -272,7 +298,7 @@ function Stake() {
                     <div className="wallet-menu" id="wallet-menu">
                       {modalButton}
                     </div>
-                    <Typography variant="h6">Connect your wallet to stake HOM</Typography>
+                    <Typography variant="h6">Connect your wallet to stake pHOM</Typography>
                   </div>
                 ) : (
                   <>
@@ -312,9 +338,10 @@ function Stake() {
                               </Typography>
                             </Box>
                           ) : (
-                            <FormControl className="ohm-input" variant="outlined" color="primary">
-                              <InputLabel htmlFor="amount-input"></InputLabel>
+                            <FormControl className="ohm-input" variant="outlined" color="primary" style={{ 'background-color': 'white' }}>
+                              <InputLabel htmlFor="amount-input" ></InputLabel>
                               <OutlinedInput
+                                style={{ 'margin': '1px', 'border': '2px solid', 'border-color': 'black', 'color': 'black' }}
                                 id="amount-input"
                                 type="number"
                                 placeholder="Enter an amount"
@@ -324,7 +351,7 @@ function Stake() {
                                 labelWidth={0}
                                 endAdornment={
                                   <InputAdornment position="end">
-                                    <Button variant="text" onClick={setMax} color="inherit">
+                                    <Button variant="text" onClick={setMax} color="black" style={{ 'color': 'black' }}>
                                       Max
                                     </Button>
                                   </InputAdornment>
@@ -349,7 +376,7 @@ function Stake() {
                                 onChangeStake("stake", false);
                               }}
                             >
-                              {txnButtonText(pendingTransactions, "staking", "Stake HOM")}
+                              {txnButtonText(pendingTransactions, "staking", "Stake pHOM")}
                             </Button>
                           ) : (
                             <Button
@@ -378,7 +405,7 @@ function Stake() {
                                 onChangeStake("unstake", false);
                               }}
                             >
-                              {txnButtonText(pendingTransactions, "unstaking", "Unstake HOM")}
+                              {txnButtonText(pendingTransactions, "unstaking", "Unstake pHOM")}
                             </Button>
                           ) : (
                             <Button
@@ -401,21 +428,21 @@ function Stake() {
                       <div className="data-row">
                         <Typography variant="body1">Your Balance</Typography>
                         <Typography variant="body1">
-                          {isAppLoading ? <Skeleton width="80px" /> : <>{trim(HOMBalance, 4)} HOM</>}
+                          {isAppLoading ? <Skeleton width="80px" /> : <>{trim(HOMBalance, 4)} pHOM</>}
                         </Typography>
                       </div>
 
                       <div className="data-row">
                         <Typography variant="body1">Your Staked Balance</Typography>
                         <Typography variant="body1">
-                          {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} sHOM</>}
+                          {isAppLoading ? <Skeleton width="80px" /> : <>{trimmedBalance} spHOM</>}
                         </Typography>
                       </div>
 
                       <div className="data-row">
                         <Typography variant="body1">Next Reward Amount</Typography>
                         <Typography variant="body1">
-                          {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} sHOM</>}
+                          {isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} spHOM</>}
                         </Typography>
                       </div>
 
@@ -433,6 +460,47 @@ function Stake() {
                         </Typography>
                       </div>
                     </div>
+                    {isAllowanceDataLoading ? (
+                      <Skeleton />
+                    ) : depositamount > 0 ? (
+                      expiry <= epochnumber ? (
+                        <Box className="stake-action-row " display="flex" alignItems="center" style={{ "justify-content": "space-between" }}>
+                          <Typography variant="body1" className="stake-note" color="textSecondary">{(depositamount * 10) / 10000000000}{" tokens are claimable"}</Typography>
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            disabled={false}
+                            onClick={() => {
+                              onClaim("spHOM");
+                            }}
+                            style={{ 'width': '30%' }}
+                          >
+                            {txnButtonText(pendingTransactions, "approve_unstaking", "Claim")}
+                          </Button>
+                        </Box>
+                      ) : (
+                        <Box className="stake-action-row " display="flex" alignItems="center" style={{ "justify-content": "space-between" }}>
+                          <Typography variant="body1" className="stake-note" color="textSecondary">{"You can cliam the "}{(depositamount * 10) / 10000000000}{" tokens after "}{(expiry - epochnumber)}{"  rebase later"}</Typography>
+                          <Button
+                            className="stake-button"
+                            variant="contained"
+                            color="primary"
+                            disabled={true}
+                            onClick={() => {
+                              onClaim("spHOM");
+                            }}
+                            style={{ 'width': '30%' }}
+                          >
+                            {txnButtonText(pendingTransactions, "approve_unstaking", "Claim")}
+                          </Button>
+                        </Box>
+
+                      )
+                    ) : (
+                      <Typography variant="body1" className="stake-note" color="textSecondary">{"There is no claimable tokens"}</Typography>
+                    )
+                    }
                   </>
                 )}
               </div>

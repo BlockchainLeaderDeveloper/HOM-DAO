@@ -11,6 +11,8 @@ import { Bond, NetworkID } from "src/lib/Bond"; // TODO: this type definition ne
 import { RootState } from "src/store";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
+import { abi as stakingAbi } from '../abi/HOMdaoStaking.json'
+
 
 
 export const getBalances = createAsyncThunk(
@@ -90,6 +92,14 @@ export const loadAccountDetails = createAsyncThunk(
     }
 
     console.log('debug->dashboard2')
+
+    const StakingContract =  new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, stakingAbi, provider);
+    const warmupInfo = await StakingContract.warmupInfo(address);
+    const epoch =  await StakingContract.epoch();
+    const expiry =warmupInfo.expiry;
+    const epochnumber =  epoch.number;
+    const depositamount = warmupInfo.deposit;
+
     
     const presaleContract = new ethers.Contract(addresses[networkID].PRESALE_ADDRESS as string, presaleAbi, provider);
     const HOMPrice = await presaleContract.getPriceForThisAddress(address);
@@ -106,7 +116,6 @@ export const loadAccountDetails = createAsyncThunk(
     if(isEnded)
       presaleStatus = "Presales was ended";
 
-      console.log('whitelist',whitelistAddress);
     
 
     return {
@@ -135,6 +144,10 @@ export const loadAccountDetails = createAsyncThunk(
       staking: {
         HOMStake: +stakeAllowance,
         HOMUnstake: +unstakeAllowance,
+        expiry :  ethers.utils.formatUnits(expiry, 0),
+        epochnumber : ethers.utils.formatUnits(epochnumber,0),
+        depositamount : ethers.utils.formatUnits(depositamount, 0),
+        
       },
       bonding: {
         daiAllowance: daiBondAllowance,
