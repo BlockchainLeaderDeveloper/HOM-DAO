@@ -32,7 +32,7 @@ function Claim() {
   const pHOMBalance = useSelector(state => {
     return state.account.balances && state.account.balances.pHOM;
   });
-  console.log("debug --> Claim / pHOMBalance : ", pHOMBalance);
+ // console.log("debug --> Claim / pHOMBalance : ", pHOMBalance);
   const setMax = () => {
     setQuantity(pHOMBalance);
   };

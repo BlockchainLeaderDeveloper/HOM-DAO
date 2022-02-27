@@ -136,7 +136,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   const isAllowanceDataLoading = bond.allowance == null;
 
   let balance = trim(bond.balance, 4);
-  console.log('bondname',bond)
+ // console.log('bondname',bond)
   if (bond.name == "usdc_hom_lp") {
     balance = new Intl.NumberFormat("en-US", { notation: "scientific" }).format(bond.balance);
   }

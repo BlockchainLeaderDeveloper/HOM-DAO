@@ -96,6 +96,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [chainID, setChainID] = useState(137);
   const [address, setAddress] = useState("");
 
+
+
   const [uri, setUri] = useState(getMainnetURI());
 
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));

@@ -18,7 +18,7 @@ import { abi as stakingAbi } from '../abi/HOMdaoStaking.json'
 export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    console.log('debug->dashboard1')
+    // console.log('debug->dashboard1')
     const HOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, ierc20Abi, provider);
     const HOMBalance = await HOMContract.balanceOf(address);
     const sHOMContract = new ethers.Contract(addresses[networkID].SPHOM_ADDRESS as string, sBHD, provider);
@@ -26,7 +26,7 @@ export const getBalances = createAsyncThunk(
    // let poolBalance = 0;
     //const poolTokenContract = new ethers.Contract(addresses[networkID].PT_TOKEN_ADDRESS as string, ierc20Abi, provider);
     //poolBalance = await poolTokenContract.balanceOf(address);
-    console.log('address',address)
+    // console.log('address',address)
 
 
     return {
@@ -55,7 +55,7 @@ export const loadAccountDetails = createAsyncThunk(
     let multiSignBalance = 0;
 
     
-    console.log('addresses',addresses)
+   // console.log('addresses',addresses)
 
     
     const USDC_ADDRESS = new ethers.Contract(addresses[networkID].USDC_ADDRESS as string, ierc20Abi, provider);
@@ -65,10 +65,10 @@ export const loadAccountDetails = createAsyncThunk(
     mimBalance = await mimContract.balanceOf(address);
 
     multiSignBalance = await USDC_ADDRESS.balanceOf(addresses[networkID].MULTISIGN_ADDRESS) / Math.pow(10, 18);
-    console.log('debug multiSignBalance account', usdcBalance);
+  //  console.log('debug multiSignBalance account', usdcBalance);
     const pHOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, pBHD, provider);
     pHOMBalance = await pHOMContract.balanceOf(address);
-   console.log('pHOMBalance1',pHOMBalance);
+ //  console.log('pHOMBalance1',pHOMBalance);
 
 
     const HOMContract = new ethers.Contract(addresses[networkID].PHOM_ADDRESS as string, ierc20Abi, provider);
@@ -91,7 +91,7 @@ export const loadAccountDetails = createAsyncThunk(
       claimAllowance = await pHOMContract.allowance(address, addresses[networkID].PRESALE_ADDRESS);
     }
 
-    console.log('debug->dashboard2')
+  //  console.log('debug->dashboard2')
 
     const StakingContract =  new ethers.Contract(addresses[networkID].STAKING_ADDRESS as string, stakingAbi, provider);
     const warmupInfo = await StakingContract.warmupInfo(address);
@@ -193,8 +193,8 @@ export const calculateUserBondDetails = createAsyncThunk(
    
     let multiSignBalance = await USDC_ADDRESS.balanceOf(addresses[networkID].MULTISIGN_ADDRESS);
    
-    console.log('debug->dashboard3')
-    console.log('multiSignBalance',multiSignBalance)
+  //  console.log('debug->dashboard3')
+  //  console.log('multiSignBalance',multiSignBalance)
     let interestDue, pendingPayout, bondMaturationTime;
 
     const bondDetails = await bondContract.bondInfo(address);
@@ -248,7 +248,7 @@ const initialState: IAccountSlice = {
 
 };
 
-console.log('initialState',initialState)
+//console.log('initialState',initialState)
 
 const accountSlice = createSlice({
   name: "account",
@@ -293,7 +293,7 @@ const accountSlice = createSlice({
       })
       .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
         state.loading = false;
-        console.log(error);
+    
       });
   },
 });

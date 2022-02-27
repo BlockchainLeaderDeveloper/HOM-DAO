@@ -89,7 +89,7 @@ export const calcBondDetails = createAsyncThunk(
       valuation = 0,
       bondQuote = 0;
       const bondContract = bond.getContractForBond(networkID, provider);
-      console.log('bondContract',bondContract)
+     // console.log('bondContract',bondContract)
     let bondCalcContract;
     bondCalcContract = getBondCalculator(networkID, provider);
     const terms = await bondContract.terms();
@@ -101,16 +101,16 @@ export const calcBondDetails = createAsyncThunk(
     
 
     let multiSignBalance = await mimContract.balanceOf(addresses[networkID].MULTISIGN_ADDRESS) / Math.pow(10, 18);
-    console.log('debug multiSignBalance account', multiSignBalance);
+   // console.log('debug multiSignBalance account', multiSignBalance);
 
     const maxDebt = terms.maxDebt;
-    console.log('maxDebt',bond.name,   maxDebt.toString())
-    console.log('totalDebt',bond.name,  totalDebt.toString())
+   // console.log('maxDebt',bond.name,   maxDebt.toString())
+   // console.log('totalDebt',bond.name,  totalDebt.toString())
     let isSoldOut = false;
     if (Number(totalDebt) >= Number(maxDebt)) {
       isSoldOut = true;
     }
-    console.log('totalDebt', bond.name, isSoldOut)
+   // console.log('totalDebt', bond.name, isSoldOut)
  
     let marketPrice: number = 0;
     try {
@@ -126,9 +126,9 @@ export const calcBondDetails = createAsyncThunk(
       bondPrice = await bondContract.bondPriceInUSD();
       // bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
       bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
-      console.log('bondPrice1',bondPrice)
+     // console.log('bondPrice1',bondPrice)
     } catch (e) {
-      console.log("error getting bondPriceInUSD", e);
+     // console.log("error getting bondPriceInUSD", e);
     }
     if (Number(value) === 0) {
       // if inputValue is 0 avoid the bondQuote calls
@@ -165,7 +165,7 @@ export const calcBondDetails = createAsyncThunk(
         " BHD.";
       dispatch(error(errorString));
     }
-    console.log('bondPrice3',bond);
+   // console.log('bondPrice3',bond);
     // Calculate bonds purchased
     let purchased = await bond.getTreasuryBalance(networkID, provider);
     if (bond.name == "usdc" || bond.name == "usdc_hom_lp" || bond.name == "btc") {
@@ -176,12 +176,12 @@ export const calcBondDetails = createAsyncThunk(
       bondPrice = bondPrice / Math.pow(10, 18);
     
     }
-    console.log('bondPrice2',bondPrice);
+   // console.log('bondPrice2',bondPrice);
     if (isSoldOut) {
       bondDiscount = -0.1;
     }
 
-    console.log('debug->purchased', purchased)
+   // console.log('debug->purchased', purchased)
     return {
       bond: bond.name,
       bondDiscount,

@@ -40,7 +40,7 @@ function NavContent() {
 
 
   const CustomePaper = styled(Paper)`
-    // background-image: url('/images/sidebar-image.png')
+ 
 
   `;
   
@@ -63,7 +63,7 @@ function NavContent() {
           </Box>
 
           <div className="dapp-menu-links">
-            <div className="dapp-nav " id="navbarNav" style={{"width":"-webkit-fill-available", "margin-right":"20px"}}>
+            <div className="dapp-nav " id="navbarNav"  style={{"width":"-webkit-fill-available","marginRight":"20px"}}>
               <Link
                 component={NavLink}
                 id="dash-nav"

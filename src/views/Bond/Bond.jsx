@@ -18,7 +18,7 @@ function a11yProps(index) {
 }
 
 function Bond({ bond }) {
-  console.log('debug->bond', bond)
+//  console.log('debug->bond', bond)
   const dispatch = useDispatch();
   const { provider, address, chainID } = useWeb3Context();
 

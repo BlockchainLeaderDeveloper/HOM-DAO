@@ -131,11 +131,11 @@ export const changeStake = createAsyncThunk(
     try {
       if (action === "stake") {
         uaData.type = "stake";
-        console.log('debug->chaingeStake', value, stakingHelper, address)
-        stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"), address);
+        // console.log('debug->chaingeStake', value, stakingHelper, address)
+        stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"), address,{ gasLimit :6000000 });
       } else {
         uaData.type = "unstake";
-        stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);
+        stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true, { gasLimit :6000000 });
       }
       const pendingTxnType = action === "stake" ? "staking" : "unstaking";
       uaData.txHash = stakeTx.hash;
@@ -191,7 +191,7 @@ export const claimspHOM = createAsyncThunk(
 
 
     try {
-      claimTx = await staking.claim(address);
+      claimTx = await staking.claim(address,{ gasLimit :6000000 });
       const text = "Claim";
       const pendingTxnType = token === "HOM" ? "claim" : "claim";
       dispatch(fetchPendingTxns({ txnHash: claimTx.hash, text, type: pendingTxnType }));

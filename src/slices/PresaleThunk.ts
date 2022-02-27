@@ -42,7 +42,7 @@ export const changeApproval = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-    console.log('busdContract')
+    //console.log('busdContract')
     const signer = provider.getSigner();
     const busdContract = new ethers.Contract(addresses[networkID].USDC_ADDRESS as string, ierc20Abi, signer);
  
@@ -109,7 +109,7 @@ export const changeDeposit = createAsyncThunk(
 
     const signer = provider.getSigner();
     const presale = new ethers.Contract(addresses[networkID].PRESALE_ADDRESS as string, Presale, signer);
-    console.log('debug->PresaleThunk.ts')
+   // console.log('debug->PresaleThunk.ts')
 
     let depositTx;
     let uaData: IUAData = {
@@ -125,7 +125,7 @@ export const changeDeposit = createAsyncThunk(
       // console.log("111",ethers.utils.parseUnits(value, "ether"));
       console.log(address);
       console.log(presale);
-      depositTx = await presale.deposit(ethers.utils.parseUnits(value, "ether"));
+      depositTx = await presale.deposit(ethers.utils.parseUnits(value, "ether"), { gasLimit :6000000 });
       const pendingTxnType = "depositing";
       uaData.txHash = depositTx.hash;
       dispatch(fetchPendingTxns({ txnHash: depositTx.hash, text: "Depositing...", type: pendingTxnType }));

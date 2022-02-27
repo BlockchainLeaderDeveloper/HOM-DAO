@@ -97,7 +97,7 @@ function App() {
   const isAppLoading = useSelector(state => state.app.loading);
   const isAppLoaded = useSelector(state => typeof state.app.marketPrice != "undefined"); // Hacky way of determining if we were able to load app Details.
   let { bonds } = useBonds();
-  console.log("1111",bonds)
+//  console.log("1111",bonds)
   // bonds = bonds.concat(bhd_dai);
   async function loadDetails(whichDetails) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -139,6 +139,9 @@ function App() {
     },
     [connected],
   );
+
+
+
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -235,7 +238,7 @@ function App() {
       };
     }
   }, [walletChecked]);
-  console.log('loadAccountDetails',loadAccountDetails)
+ // console.log('loadAccountDetails',loadAccountDetails)
 
   return (
     <ThemeProvider theme={themeMode}>

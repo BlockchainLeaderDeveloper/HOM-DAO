@@ -45,7 +45,7 @@ function ChooseBond() {
     }
     return withInterestDue;
   });
-  console.log('bonds',bonds)
+//  console.log('bonds',bonds)
 
   const marketPrice = useSelector(state => {
     return state.app.marketPrice;

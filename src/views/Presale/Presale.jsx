@@ -68,7 +68,7 @@ function Presale() {
   const whitelist = useSelector(state => {
     return state.account.presale && state.account.presale.whitelistAddress;
   });
-  console.log('whitelist', whitelist);
+ // console.log('whitelist', whitelist);
 
   const remainingAmount = useSelector(state => {
     return state.account.presale && state.account.presale.remainingAmount;
@@ -91,12 +91,12 @@ function Presale() {
       return dispatch(error("Please enter a value!"));
     }
 
-    console.log("debug->chainID", provider)
+   // console.log("debug->chainID", provider)
     // 1st catch if quantity > balance
     let usdcquantity = ethers.utils.formatUnits(quantity * 1000000, 18);
     let gweiValue = ethers.utils.parseUnits(usdcquantity, "ether");
 
-    console.log('quantity', quantity, gweiValue);
+   // console.log('quantity', quantity, gweiValue);
 
     if (action === "presale" && gweiValue.gt(ethers.utils.parseUnits(mimBalance, "ether"))) {
       return dispatch(error("You cannot deposit more than your USDC balance."));
@@ -111,7 +111,7 @@ function Presale() {
     [presaleAllowance],
   );
   const isAllowanceDataLoading = presaleAllowance == null;
-  console.log('isAllowanceDataLoading', isAllowanceDataLoading)
+ // console.log('isAllowanceDataLoading', isAllowanceDataLoading)
 
 
 

@@ -95,7 +95,7 @@ function HOMMenu() {
     >
       <Button id="ohm-menu-button" size="large" variant="contained" color="secondary" title="HOM" aria-describedby={id}>
         <SvgIcon component={InfoIcon} color="primary" />
-        <Typography>HOM</Typography>
+        <Typography>PHOM to your wallet</Typography>
       </Button>
 
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom-start" transition>

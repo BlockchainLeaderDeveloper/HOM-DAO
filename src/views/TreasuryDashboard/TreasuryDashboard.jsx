@@ -112,7 +112,7 @@ function TreasuryDashboard() {
             <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
               <Grid item style={{ 'width': '100%', 'text-align': 'justify' }}>
                 <div className="card-header">
-                  <Typography variant="h2">Dashboard(coming soon)</Typography>
+                  <Typography variant="h2">Dashboard (coming soon)</Typography>
 
                 </div>
               </Grid>

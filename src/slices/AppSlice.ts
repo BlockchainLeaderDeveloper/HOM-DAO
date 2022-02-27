@@ -89,8 +89,7 @@ export const loadAppDetails = createAsyncThunk(
     let currentIndex = await stakingContract.index();
     currentIndex = currentIndex;
     const endTime = epoch.endTime;
-    console.log('debug-current', currentTime)
-    console.log('debug-epoch', endTime)
+  
 
     return {
       currentIndex: ethers.utils.formatUnits(currentIndex, "gwei"),
@@ -161,7 +160,7 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ network
   try {
     marketPrice = await getMarketPrice({ networkID, provider });
      marketPrice = marketPrice / Math.pow(10, 9);
-    console.log('marketPrice',marketPrice);
+    // console.log('marketPrice',marketPrice);
   } catch (e) {
     marketPrice = 80;
   }
